@@ -1,0 +1,7 @@
+0 0 64 87 //Door-wooden_flat
+77 0 57 62 //Door-Underground
+02 90 64 90 //Door-Tree
+145 0 128 160 //Tree-brown
+278 0 128 160 //Tree-red
+429 0 128 160 //Tree-green 
+74 67 64 80 //Bridge-wood
