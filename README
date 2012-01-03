@@ -1,0 +1,9 @@
+My zelda clone
+easy way to setup: create an enviroment variable 'LIBRARIES' and have all the following libaries inside that directory
+libraries used:
+SDL
+SDL_image
+SDL_ttf
+SDL_net
+SDL_gfx
+SDL_mixer
