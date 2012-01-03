@@ -101,183 +101,183 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player1.cpp">
-      <Filter>Players and Enemies\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Game Stuff/ Utilities\Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="InputControls.cpp">
-      <Filter>Game Stuff/ Utilities\Input/Output</Filter>
-    </ClCompile>
-    <ClCompile Include="Boomerang.cpp">
-      <Filter>Weapons\Boomerang</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseWeapon.cpp">
-      <Filter>Weapons\BaseWeapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Sword.cpp">
-      <Filter>Weapons\Sword!</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseEntity.cpp">
-      <Filter>Players and Enemies\Base Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
+    <ClCompile Include="src\AudioManager.cpp">
       <Filter>%2a%2aSOUND%2a%2a</Filter>
     </ClCompile>
-    <ClCompile Include="TileManager.cpp">
-      <Filter>Maps and Objects\Tiles</Filter>
+    <ClCompile Include="src\BaseWeapon.cpp">
+      <Filter>Weapons\BaseWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="Tiles.cpp">
-      <Filter>Maps and Objects\Tiles</Filter>
+    <ClCompile Include="src\Boomerang.cpp">
+      <Filter>Weapons\Boomerang</Filter>
     </ClCompile>
-    <ClCompile Include="LoadImage.cpp">
-      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageList.cpp">
-      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Game Stuff/ Utilities\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Game Stuff/ Utilities\Collision Detection</Filter>
-    </ClCompile>
-    <ClCompile Include="Shield.cpp">
+    <ClCompile Include="src\Shield.cpp">
       <Filter>Weapons\Shield</Filter>
     </ClCompile>
-    <ClCompile Include="TTF.cpp">
-      <Filter>Game Stuff/ Utilities\Font/Text</Filter>
+    <ClCompile Include="src\Sword.cpp">
+      <Filter>Weapons\Sword!</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Game Stuff/ Utilities\Collision Detection\Manager</Filter>
+    <ClCompile Include="src\Player1.cpp">
+      <Filter>Players and Enemies\Player</Filter>
     </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>Maps and Objects\MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="WarpZone.cpp">
-      <Filter>Maps and Objects\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="BG_Objects.cpp">
-      <Filter>Maps and Objects\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="BackgroundManager.cpp">
-      <Filter>Maps and Objects\Objects\Background Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy1.cpp">
+    <ClCompile Include="src\Enemy1.cpp">
       <Filter>Players and Enemies\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Particles.cpp">
+    <ClCompile Include="src\BaseEntity.cpp">
+      <Filter>Players and Enemies\Base Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Particles.cpp">
       <Filter>Particles</Filter>
     </ClCompile>
-    <ClCompile Include="BitManipulation.cpp">
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BitManipulation.cpp">
       <Filter>Game Stuff/ Utilities\Bit Manip</Filter>
     </ClCompile>
-    <ClCompile Include="ShowDamage.cpp">
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Game Stuff/ Utilities\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionManager.cpp">
+      <Filter>Game Stuff/ Utilities\Collision Detection\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision.cpp">
+      <Filter>Game Stuff/ Utilities\Collision Detection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShowDamage.cpp">
       <Filter>Game Stuff/ Utilities\Display HitPoints</Filter>
     </ClCompile>
-    <ClCompile Include="Server.cpp">
+    <ClCompile Include="src\TTF.cpp">
+      <Filter>Game Stuff/ Utilities\Font/Text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LoadImage.cpp">
+      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImageList.cpp">
+      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputControls.cpp">
+      <Filter>Game Stuff/ Utilities\Input/Output</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timer.cpp">
+      <Filter>Game Stuff/ Utilities\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TileManager.cpp">
+      <Filter>Maps and Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tiles.cpp">
+      <Filter>Maps and Objects\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WarpZone.cpp">
+      <Filter>Maps and Objects\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BG_Objects.cpp">
+      <Filter>Maps and Objects\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BackgroundManager.cpp">
+      <Filter>Maps and Objects\Objects\Background Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MapEditor.cpp">
+      <Filter>Maps and Objects\MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Server.cpp">
       <Filter>Network/Netplay\Server</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
+    <ClCompile Include="src\Client.cpp">
       <Filter>Network/Netplay\Client</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Config.h">
-      <Filter>CONFIG</Filter>
-    </ClInclude>
-    <ClInclude Include="Player1.h">
-      <Filter>Players and Enemies\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Game Stuff/ Utilities\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="InputControls.h">
-      <Filter>Game Stuff/ Utilities\Input/Output</Filter>
-    </ClInclude>
-    <ClInclude Include="Boomerang.h">
-      <Filter>Weapons\Boomerang</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseWeapon.h">
-      <Filter>Weapons\BaseWeapon</Filter>
-    </ClInclude>
-    <ClInclude Include="Sword.h">
-      <Filter>Weapons\Sword!</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseEntity.h">
-      <Filter>Players and Enemies\Base Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioManager.h">
+    <ClInclude Include="include\AudioManager.h">
       <Filter>%2a%2aSOUND%2a%2a</Filter>
     </ClInclude>
-    <ClInclude Include="TileManager.h">
-      <Filter>Maps and Objects\Tiles</Filter>
+    <ClInclude Include="include\Config.h">
+      <Filter>CONFIG</Filter>
     </ClInclude>
-    <ClInclude Include="Tiles.h">
-      <Filter>Maps and Objects\Tiles</Filter>
+    <ClInclude Include="include\BaseWeapon.h">
+      <Filter>Weapons\BaseWeapon</Filter>
     </ClInclude>
-    <ClInclude Include="LoadImage.h">
-      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
+    <ClInclude Include="include\Boomerang.h">
+      <Filter>Weapons\Boomerang</Filter>
     </ClInclude>
-    <ClInclude Include="ImageList.h">
-      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Game Stuff/ Utilities\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Game Stuff/ Utilities\Collision Detection</Filter>
-    </ClInclude>
-    <ClInclude Include="Shield.h">
+    <ClInclude Include="include\Shield.h">
       <Filter>Weapons\Shield</Filter>
     </ClInclude>
-    <ClInclude Include="TTF.h">
-      <Filter>Game Stuff/ Utilities\Font/Text</Filter>
+    <ClInclude Include="include\Sword.h">
+      <Filter>Weapons\Sword!</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Game Stuff/ Utilities\Collision Detection\Manager</Filter>
+    <ClInclude Include="include\Player1.h">
+      <Filter>Players and Enemies\Player</Filter>
     </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>Maps and Objects\MapEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="WarpZone.h">
-      <Filter>Maps and Objects\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="BG_Objects.h">
-      <Filter>Maps and Objects\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="BackgroundManager.h">
-      <Filter>Maps and Objects\Objects\Background Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy1.h">
+    <ClInclude Include="include\Enemy1.h">
       <Filter>Players and Enemies\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Particles.h">
+    <ClInclude Include="include\BaseEntity.h">
+      <Filter>Players and Enemies\Base Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Particles.h">
       <Filter>Particles</Filter>
     </ClInclude>
-    <ClInclude Include="BitManipulation.h">
+    <ClInclude Include="include\GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BitManipulation.h">
       <Filter>Game Stuff/ Utilities\Bit Manip</Filter>
     </ClInclude>
-    <ClInclude Include="ShowDamage.h">
+    <ClInclude Include="include\Camera.h">
+      <Filter>Game Stuff/ Utilities\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CollisionManager.h">
+      <Filter>Game Stuff/ Utilities\Collision Detection\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Collision.h">
+      <Filter>Game Stuff/ Utilities\Collision Detection</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ShowDamage.h">
       <Filter>Game Stuff/ Utilities\Display HitPoints</Filter>
     </ClInclude>
-    <ClInclude Include="C_GameLobby.h">
+    <ClInclude Include="include\TTF.h">
+      <Filter>Game Stuff/ Utilities\Font/Text</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LoadImage.h">
+      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImageList.h">
+      <Filter>Game Stuff/ Utilities\Image stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputControls.h">
+      <Filter>Game Stuff/ Utilities\Input/Output</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Timer.h">
+      <Filter>Game Stuff/ Utilities\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TileManager.h">
+      <Filter>Maps and Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tiles.h">
+      <Filter>Maps and Objects\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WarpZone.h">
+      <Filter>Maps and Objects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BG_Objects.h">
+      <Filter>Maps and Objects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BackgroundManager.h">
+      <Filter>Maps and Objects\Objects\Background Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MapEditor.h">
+      <Filter>Maps and Objects\MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\C_GameLobby.h">
       <Filter>Network/Netplay</Filter>
     </ClInclude>
-    <ClInclude Include="Server.h">
+    <ClInclude Include="include\Server.h">
       <Filter>Network/Netplay\Server</Filter>
     </ClInclude>
-    <ClInclude Include="Client.h">
+    <ClInclude Include="include\Client.h">
       <Filter>Network/Netplay\Client</Filter>
     </ClInclude>
   </ItemGroup>

@@ -37,10 +37,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\C++ libraries\SDL_ttf-2.0.10\include;C:\C++ libraries\SDL_gfx-2.0.23\include;C:\C++ libraries\SDL_image-1.2.10\include;C:\C++ libraries\SDL_mixer-1.2.11\include;C:\C++ libraries\SDL_net-1.2.7\include;C:\SDL-1.2.14\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Lee\Documents\Visual Studio 2010\Projects\SomeGame\include;C:\C++ libraries\SDL_ttf-2.0.10\include;C:\C++ libraries\SDL_gfx-2.0.23\include;C:\C++ libraries\SDL_image-1.2.10\include;C:\C++ libraries\SDL_mixer-1.2.11\include;C:\C++ libraries\SDL_net-1.2.7\include;C:\SDL-1.2.14\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>C:\C++ libraries\SDL_gfx-2.0.23\lib;C:\C++ libraries\SDL_ttf-2.0.10\lib;C:\C++ libraries\SDL_image-1.2.10\lib;C:\C++ libraries\SDL_mixer-1.2.11\lib;C:\C++ libraries\SDL_net-1.2.7\lib;C:\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>C:\Users\Lee\Documents\Visual Studio 2010\Projects\SomeGame\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -68,67 +69,67 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AudioManager.cpp" />
-    <ClCompile Include="BackgroundManager.cpp" />
-    <ClCompile Include="BaseEntity.cpp" />
-    <ClCompile Include="BaseWeapon.cpp" />
-    <ClCompile Include="BG_Objects.cpp" />
-    <ClCompile Include="BitManipulation.cpp" />
-    <ClCompile Include="Boomerang.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="Enemy1.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="ImageList.cpp" />
-    <ClCompile Include="InputControls.cpp" />
-    <ClCompile Include="LoadImage.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MapEditor.cpp" />
-    <ClCompile Include="Particles.cpp" />
-    <ClCompile Include="Player1.cpp" />
-    <ClCompile Include="Server.cpp" />
-    <ClCompile Include="Shield.cpp" />
-    <ClCompile Include="ShowDamage.cpp" />
-    <ClCompile Include="Sword.cpp" />
-    <ClCompile Include="TileManager.cpp" />
-    <ClCompile Include="Tiles.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="TTF.cpp" />
-    <ClCompile Include="WarpZone.cpp" />
+    <ClCompile Include="src\AudioManager.cpp" />
+    <ClCompile Include="src\BackgroundManager.cpp" />
+    <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="src\BaseWeapon.cpp" />
+    <ClCompile Include="src\BG_Objects.cpp" />
+    <ClCompile Include="src\BitManipulation.cpp" />
+    <ClCompile Include="src\Boomerang.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Client.cpp" />
+    <ClCompile Include="src\Collision.cpp" />
+    <ClCompile Include="src\CollisionManager.cpp" />
+    <ClCompile Include="src\Enemy1.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\ImageList.cpp" />
+    <ClCompile Include="src\InputControls.cpp" />
+    <ClCompile Include="src\LoadImage.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\MapEditor.cpp" />
+    <ClCompile Include="src\Particles.cpp" />
+    <ClCompile Include="src\Player1.cpp" />
+    <ClCompile Include="src\Server.cpp" />
+    <ClCompile Include="src\Shield.cpp" />
+    <ClCompile Include="src\ShowDamage.cpp" />
+    <ClCompile Include="src\Sword.cpp" />
+    <ClCompile Include="src\TileManager.cpp" />
+    <ClCompile Include="src\Tiles.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
+    <ClCompile Include="src\TTF.cpp" />
+    <ClCompile Include="src\WarpZone.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="BackgroundManager.h" />
-    <ClInclude Include="BaseEntity.h" />
-    <ClInclude Include="BaseWeapon.h" />
-    <ClInclude Include="BG_Objects.h" />
-    <ClInclude Include="BitManipulation.h" />
-    <ClInclude Include="Boomerang.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionManager.h" />
-    <ClInclude Include="Config.h" />
-    <ClInclude Include="C_GameLobby.h" />
-    <ClInclude Include="Enemy1.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="ImageList.h" />
-    <ClInclude Include="InputControls.h" />
-    <ClInclude Include="LoadImage.h" />
-    <ClInclude Include="MapEditor.h" />
-    <ClInclude Include="Particles.h" />
-    <ClInclude Include="Player1.h" />
-    <ClInclude Include="Server.h" />
-    <ClInclude Include="Shield.h" />
-    <ClInclude Include="ShowDamage.h" />
-    <ClInclude Include="Sword.h" />
-    <ClInclude Include="TileManager.h" />
-    <ClInclude Include="Tiles.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="TTF.h" />
-    <ClInclude Include="WarpZone.h" />
+    <ClInclude Include="include\AudioManager.h" />
+    <ClInclude Include="include\BackgroundManager.h" />
+    <ClInclude Include="include\BaseEntity.h" />
+    <ClInclude Include="include\BaseWeapon.h" />
+    <ClInclude Include="include\BG_Objects.h" />
+    <ClInclude Include="include\BitManipulation.h" />
+    <ClInclude Include="include\Boomerang.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Client.h" />
+    <ClInclude Include="include\Collision.h" />
+    <ClInclude Include="include\CollisionManager.h" />
+    <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\C_GameLobby.h" />
+    <ClInclude Include="include\Enemy1.h" />
+    <ClInclude Include="include\GUI.h" />
+    <ClInclude Include="include\ImageList.h" />
+    <ClInclude Include="include\InputControls.h" />
+    <ClInclude Include="include\LoadImage.h" />
+    <ClInclude Include="include\MapEditor.h" />
+    <ClInclude Include="include\Particles.h" />
+    <ClInclude Include="include\Player1.h" />
+    <ClInclude Include="include\Server.h" />
+    <ClInclude Include="include\Shield.h" />
+    <ClInclude Include="include\ShowDamage.h" />
+    <ClInclude Include="include\Sword.h" />
+    <ClInclude Include="include\TileManager.h" />
+    <ClInclude Include="include\Tiles.h" />
+    <ClInclude Include="include\Timer.h" />
+    <ClInclude Include="include\TTF.h" />
+    <ClInclude Include="include\WarpZone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
