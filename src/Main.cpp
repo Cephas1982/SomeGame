@@ -29,6 +29,7 @@
 #include "Client.h"
 
 
+
 //GLOBALS
 SDL_Surface *screen; //extern screen      <- to make global
 Timer GameTimer, g_fpsTimer, g_fpsRegulator;
@@ -70,27 +71,11 @@ float tempMouseY = 1;
 int g_ClientorServer = 1;
 
 
-int main( int argc, char* args[] )
-{
-	s_gamePacket tempPack;
-	std::cout << "size: " << sizeof(tempPack);
-	//Setup network
-	//std::cout << "Server = 1, Client = 2\n Which are you?: ";
-	while(g_ClientorServer < 1 || g_ClientorServer > 2)
-		std::cin >> g_ClientorServer;
-	//NETWORK
-	bool clientOn = false;
-	bool serverOn = false;
-	if(g_ClientorServer == SERVER)
-		serverOn = true;
-	if(g_ClientorServer == CLIENT)
-		clientOn = true;
-	C_Client Client(clientOn);
-	C_Server Server(serverOn);
 
-	//local variables
-    screen = new SDL_Surface;
-    //Initialize all SDL subsystems
+//inits SDL, etc.
+int Main_initAll()
+{
+	    //Initialize all SDL subsystems
     if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
     {
         return false;
@@ -114,12 +99,41 @@ int main( int argc, char* args[] )
         return false;
     }
 
-    //Set window caption
+	//Initialize Network
+	bool clientOn = false;
+	bool serverOn = false;
+	if(g_ClientorServer == SERVER)
+		serverOn = true;
+	if(g_ClientorServer == CLIENT)
+		clientOn = true;
+	C_Client Client(clientOn);
+	C_Server Server(serverOn);
+	return 1;//todo: return different value based on error
 
-	//Display Window txt	
-	char fpsTxt[4];
-		 
+}
+
+int main( int argc, char* args[] )
+{
+
+	//Networking stuff  TODO: cleanup!!!!!
+	s_gamePacket tempPack;
+	std::cout << "size: " << sizeof(tempPack);
+	//Setup network
+	//std::cout << "Server = 1, Client = 2\n Which are you?: ";
+	while(g_ClientorServer < 1 || g_ClientorServer > 2)
+		std::cin >> g_ClientorServer;
+
+
+	//local variables
+    screen = new SDL_Surface;
+
+	//INIT everything
+	Main_initAll();
+
+	//window caption
+	char fpsTxt[4]; 
 	SDL_WM_SetCaption( fpsTxt, NULL );
+
 
 	//LOAD IMAGES FOR WHATEVER NEEDED
 	LevelAssets.LoadImage("Tiles\\Tiles.png");
