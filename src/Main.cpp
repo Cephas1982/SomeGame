@@ -73,7 +73,7 @@ int g_ClientorServer = 1;
 
 
 //inits SDL, etc.
-int Main_initAll()
+int Main_initAll(C_Client &Client, C_Server &Server)
 {
 	    //Initialize all SDL subsystems
     if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
@@ -106,10 +106,32 @@ int Main_initAll()
 		serverOn = true;
 	if(g_ClientorServer == CLIENT)
 		clientOn = true;
-	C_Client Client(clientOn);
-	C_Server Server(serverOn);
+	Client.isActive(clientOn);
+	Server.isActive(serverOn);
 	return 1;//todo: return different value based on error
 
+}
+
+int Main_loadImages()
+{
+	//LOAD IMAGES FOR WHATEVER NEEDED
+	LevelAssets.LoadImage("Tiles\\Tiles.png");
+
+	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\OG_overworldBG.png");
+	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\Grass.png");
+	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\Darkness.png");
+
+	BackgroundImg.LoadImage("Tiles\\Background Objects\\bgObjects.png");
+
+	GUI_Img.LoadImage("Screenshots\\world map.png");
+	GUI_Img.LoadImage("Screenshots\\YoureHere_down.png");
+	
+
+	
+	//LOAD BACKGROUND LAYERS
+	//BackgroundManager.Load();//  loading from tilemanager for now
+
+	return 1;//todo: return value based on error
 }
 
 int main( int argc, char* args[] )
@@ -126,27 +148,20 @@ int main( int argc, char* args[] )
 
 	//local variables
     screen = new SDL_Surface;
+	
+	C_Client Client;//net client
+	C_Server Server;//net server
 
 	//INIT everything
-	Main_initAll();
+	Main_initAll(Client, Server);
 
 	//window caption
 	char fpsTxt[4]; 
 	SDL_WM_SetCaption( fpsTxt, NULL );
 
+	//Load image dataz
+	Main_loadImages();
 
-	//LOAD IMAGES FOR WHATEVER NEEDED
-	LevelAssets.LoadImage("Tiles\\Tiles.png");
-
-	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\OG_overworldBG.png");
-	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\Grass.png");
-	StaticBGs.LoadImage("Tiles\\Static Backgrounds\\Darkness.png");
-
-	BackgroundImg.LoadImage("Tiles\\Background Objects\\bgObjects.png");
-
-	GUI_Img.LoadImage("Screenshots\\world map.png");
-	GUI_Img.LoadImage("Screenshots\\YoureHere_down.png");
-	
 	//INIT SOUND 
 	AudioManager.LoadMusic(); //loads music need to make this better once able to change maps
 	AudioManager.LoadSFX();
@@ -154,8 +169,6 @@ int main( int argc, char* args[] )
 	//LOAD TILE DATA
 	TileManager.LoadMainBuffer();//hard coded for now, will change later
 	 
-	//LOAD BACKGROUND LAYERS
-	//BackgroundManager.Load();//  loading from tilemanager for now
 
 	//MAKE ENTITY VECTOR
 	std::vector<C_BaseEntity*> v_Entities;//CREATE PLAYER OBJECT

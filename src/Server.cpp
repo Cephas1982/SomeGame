@@ -2,42 +2,11 @@
 #define SERVER_CPP
 #include "Server.h"
 
-C_Server::C_Server(bool turnServerOn)
+C_Server::C_Server()
 {
-	m_serverActive = turnServerOn;
+	m_serverActive = true;
 	if(m_serverActive){
-		//init
-		m_connected = false;
-		m_serverSocket = NULL;
-		m_clientSocket = NULL;
-		m_bytesSent = 0;
-	
-	
-		if(SDLNet_Init() == -1)
-			printf("SDLNet_Init: %s\n\n", SDLNet_GetError());
-
-		//Setup server IP and port
-		if(SDLNet_ResolveHost(&m_ipaddress, NULL, SERVER_PORT)== -1)
-			printf("SDLNet_Init: %s\n", SDLNet_GetError());
-
-		//Output HostIp
-		if(!(m_hostIP = SDLNet_ResolveIP(&m_ipaddress)))
-			printf("SDLNet_ResolveIP: %s\n", SDLNet_GetError());
-		else
-			printf("Host is: %s \n\n", m_hostIP);
-
-		//Get a TCPsocket
-		m_serverSocket = SDLNet_TCP_Open(&m_ipaddress);
-		if(!m_serverSocket)
-			printf("SDLNet_TCP_Open: %s\n\n", SDLNet_GetError());
-		else
-			printf("Server up and running. Awaiting client connection!....\n\n");
-
-		//Create socket set AND add socket to monitor(handle up to 16 sockets) 
-		m_socketSet = SDLNet_AllocSocketSet(1);
-		if(!m_socketSet)
-			printf("SDLNet_AllocSocketSet: %s\n\n", SDLNet_GetError());
-
+		InitServer();
 	}//endif	
 }
 C_Server::~C_Server()
@@ -95,6 +64,45 @@ void C_Server::Receive()
 		}
 	}
 }
+void C_Server::isActive(bool isOn)
+{
+	m_serverActive = isOn;
+}
+void C_Server::InitServer()
+{
+	
+		//init
+		m_connected = false;
+		m_serverSocket = NULL;
+		m_clientSocket = NULL;
+		m_bytesSent = 0;
+	
+	
+		if(SDLNet_Init() == -1)
+			printf("SDLNet_Init: %s\n\n", SDLNet_GetError());
 
+		//Setup server IP and port
+		if(SDLNet_ResolveHost(&m_ipaddress, NULL, SERVER_PORT)== -1)
+			printf("SDLNet_Init: %s\n", SDLNet_GetError());
+
+		//Output HostIp
+		if(!(m_hostIP = SDLNet_ResolveIP(&m_ipaddress)))
+			printf("SDLNet_ResolveIP: %s\n", SDLNet_GetError());
+		else
+			printf("Host is: %s \n\n", m_hostIP);
+
+		//Get a TCPsocket
+		m_serverSocket = SDLNet_TCP_Open(&m_ipaddress);
+		if(!m_serverSocket)
+			printf("SDLNet_TCP_Open: %s\n\n", SDLNet_GetError());
+		else
+			printf("Server up and running. Awaiting client connection!....\n\n");
+
+		//Create socket set AND add socket to monitor(handle up to 16 sockets) 
+		m_socketSet = SDLNet_AllocSocketSet(1);
+		if(!m_socketSet)
+			printf("SDLNet_AllocSocketSet: %s\n\n", SDLNet_GetError());
+
+}
 
 #endif

@@ -23,11 +23,13 @@ class C_Server{
 
 	public:
 			
-			C_Server(bool turn_server_on);
+			C_Server();
 			~C_Server();
 
 			bool FindConnection();
 			void UpdateClient();// This sends a packet with game info to clients
 			void Receive();// Gets packets from clients
+			void isActive(bool on_or_off);
+			void InitServer();
 };
 #endif
