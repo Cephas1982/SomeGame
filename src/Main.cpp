@@ -221,6 +221,7 @@ void Main_keyCommands(std::vector<C_BaseEntity*> &v_Entities, C_GUI &GUI)//this 
 			printCount = 0;
 		}				
 	}//END SCREEN CAP
+	//TODO: FIX SCREEN CAPTURE
 
 }
 
@@ -276,29 +277,7 @@ int main( int argc, char* args[] )
 
 		g_fpsRegulator.start();
 
-/*  MOVED TO KEYCOMMAND FUNCTION
-		//SETUP PRINT SCREEN
-		if(Controls.key_print || printScreenReady){
-			int x, y;
-			switch(printCount){
-			case 0:	x = 0;
-					y = 0;
-					break;
-			case 1:	x = 1280;
-					y = 0;
-					break;
-			case 2:	x = 0;
-					y = 960;
-					break;
-			case 3:	x = 1280;
-					y = 960;
-					break;
-			}
-			Camera.SetCamera(&x, &y);
-			printScreenReady = true;
-		}
 
-*/
 		//HANDLE INPUTS AND A.I. AND UPDATE MISC THINGS
 		Controls.CheckInputs();
 		if(MapEditorMenuActive || mapMode )//lock controls under certain conditions
@@ -340,9 +319,7 @@ int main( int argc, char* args[] )
 			v_Entities[i]->Move();
 			v_Entities[i]->MoveWeapons();
 		}
-
 	
-		
 		//DRAW STUFF// ***Higher layers are further down this list**
 		TileManager.RenderStaticBackground();							//image under tiles
 		TileManager.Render();											//Render background Tiles
