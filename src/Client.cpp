@@ -2,42 +2,18 @@
 #define CLIENT_CPP
 #include "Client.h"
 
-C_Client::C_Client(bool turnClientOn)
+C_Client::C_Client()
 {
-	clientActive = turnClientOn;
-	if(clientActive){
-
-		//init
-		m_connected = false;
-		m_clientSocket = NULL;
-		m_bytesReceived = 0;
-	
-
-		if(SDLNet_Init() == -1)
-			printf("SDLNet_Init: %s\n\n", SDLNet_GetError());
-
-		//Setup server IP and port
-		if(SDLNet_ResolveHost(&m_ipaddress, SERVER_IP, SERVER_PORT)== -1)
-			printf("SDLNet_Init: %s\n", SDLNet_GetError());
-
-		//Output HostIp
-		if(!(m_hostIP = SDLNet_ResolveIP(&m_ipaddress)))
-			printf("SDLNet_ResolveIP: %s\n", SDLNet_GetError());
-		else
-			printf("Client: attempting to connect to:  %s \n\n", m_hostIP);
-
-
-		//Create socket set AND add socket to monitor(handle up to 16 sockets) 
-		m_socketSet = SDLNet_AllocSocketSet(1);
-		if(!m_socketSet)
-			printf("SDLNet_AllocSocketSet: %s\n\n", SDLNet_GetError());
+	m_clientActive = false;
+	if(m_clientActive){
+		InitClient();
 	}
 	
 
 }
 C_Client::~C_Client()
 {
-	if(clientActive){
+	if(m_clientActive){
 		SDLNet_TCP_Close(m_clientSocket);
 		SDLNet_Quit();
 		//close
@@ -90,5 +66,37 @@ void C_Client::Send()
 	else if(m_connected)
 			m_result = SDLNet_TCP_Send(m_clientSocket, &s_outPacket, sizeof(s_outPacket));	
 		std::cout << "bytes sent: " << (m_bytesSent += m_result) << std::endl;
+}
+void C_Client::isActive(bool isOn)
+{
+	m_clientActive = isOn;
+}
+void C_Client::InitClient()
+{
+	
+		//init
+		m_connected = false;
+		m_clientSocket = NULL;
+		m_bytesReceived = 0;
+	
+
+		if(SDLNet_Init() == -1)
+			printf("SDLNet_Init: %s\n\n", SDLNet_GetError());
+
+		//Setup server IP and port
+		if(SDLNet_ResolveHost(&m_ipaddress, SERVER_IP, SERVER_PORT)== -1)
+			printf("SDLNet_Init: %s\n", SDLNet_GetError());
+
+		//Output HostIp
+		if(!(m_hostIP = SDLNet_ResolveIP(&m_ipaddress)))
+			printf("SDLNet_ResolveIP: %s\n", SDLNet_GetError());
+		else
+			printf("Client: attempting to connect to:  %s \n\n", m_hostIP);
+
+
+		//Create socket set AND add socket to monitor(handle up to 16 sockets) 
+		m_socketSet = SDLNet_AllocSocketSet(1);
+		if(!m_socketSet)
+			printf("SDLNet_AllocSocketSet: %s\n\n", SDLNet_GetError());
 }
 #endif

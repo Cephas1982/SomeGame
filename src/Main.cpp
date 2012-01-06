@@ -29,6 +29,7 @@
 #include "Client.h"
 
 
+
 //GLOBALS
 SDL_Surface *screen; //extern screen      <- to make global
 Timer GameTimer, g_fpsTimer, g_fpsRegulator;
@@ -70,27 +71,11 @@ float tempMouseY = 1;
 int g_ClientorServer = 1;
 
 
-int main( int argc, char* args[] )
-{
-	s_gamePacket tempPack;
-	std::cout << "size: " << sizeof(tempPack);
-	//Setup network
-	//std::cout << "Server = 1, Client = 2\n Which are you?: ";
-	while(g_ClientorServer < 1 || g_ClientorServer > 2)
-		std::cin >> g_ClientorServer;
-	//NETWORK
-	bool clientOn = false;
-	bool serverOn = false;
-	if(g_ClientorServer == SERVER)
-		serverOn = true;
-	if(g_ClientorServer == CLIENT)
-		clientOn = true;
-	C_Client Client(clientOn);
-	C_Server Server(serverOn);
 
-	//local variables
-    screen = new SDL_Surface;
-    //Initialize all SDL subsystems
+//inits SDL, etc.
+int Main_initAll(C_Client &Client, C_Server &Server, std::vector<C_BaseEntity*> &v_Entities)
+{
+	//Initialize all SDL subsystems
     if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
     {
         return false;
@@ -114,13 +99,36 @@ int main( int argc, char* args[] )
         return false;
     }
 
-    //Set window caption
+	//Initialize Network
+	bool clientOn = false;
+	bool serverOn = false;
+	if(g_ClientorServer == SERVER)
+		serverOn = true;
+	if(g_ClientorServer == CLIENT)
+		clientOn = true;
+	Client.isActive(clientOn);
+	Server.isActive(serverOn);
 
-	//Display Window txt	
-	char fpsTxt[4];
-		 
-	SDL_WM_SetCaption( fpsTxt, NULL );
 
+	//Load Entity vector
+	C_BaseEntity *Player = new C_Player1;//make 1 player for now
+	v_Entities.push_back(Player);
+	//Make enemies
+	for(int i = 0; i < 1; i++){
+		C_BaseEntity *Enemy = new C_Enemy1;
+		v_Entities.push_back(Enemy);
+	}
+
+	//INIT CAMERA
+	Camera.SetCamera(v_Entities[0]->Get_p_X(), v_Entities[0]->Get_p_Y());//set it to track the player
+
+	
+	
+	return 1;//todo: return different value based on error
+}
+
+int Main_loadImages()
+{
 	//LOAD IMAGES FOR WHATEVER NEEDED
 	LevelAssets.LoadImage("Tiles\\Tiles.png");
 
@@ -133,38 +141,131 @@ int main( int argc, char* args[] )
 	GUI_Img.LoadImage("Screenshots\\world map.png");
 	GUI_Img.LoadImage("Screenshots\\YoureHere_down.png");
 	
-	//INIT SOUND 
-	AudioManager.LoadMusic(); //loads music need to make this better once able to change maps
-	AudioManager.LoadSFX();
 
-	//LOAD TILE DATA
-	TileManager.LoadMainBuffer();//hard coded for now, will change later
-	 
+	
 	//LOAD BACKGROUND LAYERS
 	//BackgroundManager.Load();//  loading from tilemanager for now
 
-	//MAKE ENTITY VECTOR
-	std::vector<C_BaseEntity*> v_Entities;//CREATE PLAYER OBJECT
-		//make 1 player for now
-		C_BaseEntity *Player = new C_Player1;
-		v_Entities.push_back(Player);
-		//Make enemies
-		for(int i = 0; i < 1; i++){
-			C_BaseEntity *Enemy = new C_Enemy1;
+	return 1;//todo: return value based on error
+}
+
+void Main_keyCommands(std::vector<C_BaseEntity*> &v_Entities, C_GUI &GUI)//this is for who knows what. Debug and laziness
+{
+	//KEYS COMMANDS**********************************
+
+	//Start PRINT SCREEN  - This takes a snapshot of an entire zone. Grid 1-4 (clockwise)
+	if(Controls.key_print || printScreenReady){
+		int x, y;
+		switch(printCount){
+		case 0:	x = 0;
+				y = 0;
+				break;
+		case 1:	x = 1280;
+				y = 0;
+				break;
+		case 2:	x = 0;
+				y = 960;
+				break;
+		case 3:	x = 1280;
+				y = 960;
+				break;
+		}
+		Camera.SetCamera(&x, &y);
+		printScreenReady = true;
+	}
+
+	//Display Map
+	if(Controls.key_M){
+		SDL_Rect playerPos = {(TileManager.Get_mapPosition().x - 1)* 160 + (v_Entities[0]->Get_X() / 8), (TileManager.Get_mapPosition().y - 1)* 120  + (v_Entities[0]->Get_Y() / 6)};
+		GUI.Set_playerPosition(playerPos);			
+		mapMode = !mapMode;
+		GUI.Set_initMap(ON);
+	}
+	//SPAWN 10 Enemies**********************
+	if(Controls.key_lctrl){
+		for(int i = 0; i < 10; i ++){
+			C_BaseEntity* Enemy = new C_Enemy1;
 			v_Entities.push_back(Enemy);
 		}
+	}
+	//ERASE ALL ENEMIES******************
+	if(Controls.key_lctrl && Controls.key_lshift){
+		for(int i = 1; i < v_Entities.size(); i++){
+			C_BaseEntity* tempEntity = v_Entities[i];
+			delete tempEntity;
+		}
+		v_Entities.erase(v_Entities.begin()+1, v_Entities.end() );//erase all
+	}
+	//PARTICLE TEST
+	if(Controls.key_P)
+		for(int i = 0; i < 300; i++){
+			C_BaseParticles* tempParticle = new C_BaseParticles;
+			tempParticle->Start(300, 300);
+			v_Particles.push_back(tempParticle);
+		}
+	//SCREEN CAPTURE  >>>>> TODO MAKE CLASS for this
+	if(printScreenReady){
+		switch(printCount){
+		case 0: SDL_SaveBMP(screen, "Screenshots\\test1.bmp"); 
+				break;
+		case 1: SDL_SaveBMP(screen, "Screenshots\\test2.bmp"); 
+				break;
+		case 2: SDL_SaveBMP(screen, "Screenshots\\test3.bmp"); 
+				break;
+		case 3: SDL_SaveBMP(screen, "Screenshots\\test4.bmp"); 
+				break;
+		}
+		Camera.SetCamera(v_Entities[0]->Get_p_X(), v_Entities[0]->Get_p_Y());
+		if(printCount++ > 3){
+			printScreenReady = false;
+			printCount = 0;
+		}				
+	}//END SCREEN CAP
+	//TODO: FIX SCREEN CAPTURE
+
+}
+
+int main( int argc, char* args[] )
+{
+
+	//Networking stuff  - Debugging for when user is client TODO: cleanup!!!!!
+//	s_gamePacket tempPack;
+//	std::cout << "size: " << sizeof(tempPack);
+	//Setup network
+	//std::cout << "Server = 1, Client = 2\n Which are you?: ";
+//	while(g_ClientorServer < 1 || g_ClientorServer > 2)
+//		std::cin >> g_ClientorServer;
+
+
+	//local variables
+    screen = new SDL_Surface;	
+	C_Client Client;//net client
+	C_Server Server;//net server
+	std::vector<C_BaseEntity*> v_Entities;//Entity vector (holds active players and enemies)
+
+	//INIT everything
+	Main_initAll(Client, Server, v_Entities);
 	//INIT GUI
 	C_GUI GUI;
 
-	//INIT CAMERA
-	Camera.SetCamera(v_Entities[0]->Get_p_X(), v_Entities[0]->Get_p_Y());//set it to track the player
+	//Load image dataz
+	Main_loadImages();
 
+	//Load sfx and music
+	AudioManager.LoadMusic(); //loads music need to make this better once able to change maps
+	AudioManager.LoadSFX();
+
+	//Fill main tile buffer
+	TileManager.LoadMainBuffer();//hard coded for now, will change later
 
 	//INIT MAP EDITOR
 	C_MapEditor MapEditor(&TileManager, &v_Entities, &GUI);
 
 
-
+	//window caption
+	char fpsTxt[4]; 
+	SDL_WM_SetCaption( fpsTxt, NULL );	
+	
 	// THE GAME LOOP
 	GameTimer.start();
 	g_fpsTimer.start();
@@ -175,28 +276,6 @@ int main( int argc, char* args[] )
 			exitGame = true;
 
 		g_fpsRegulator.start();
-
-
-		//SETUP PRINT SCREEN
-		if(Controls.key_print || printScreenReady){
-			int x, y;
-			switch(printCount){
-			case 0:	x = 0;
-					y = 0;
-					break;
-			case 1:	x = 1280;
-					y = 0;
-					break;
-			case 2:	x = 0;
-					y = 960;
-					break;
-			case 3:	x = 1280;
-					y = 960;
-					break;
-			}
-			Camera.SetCamera(&x, &y);
-			printScreenReady = true;
-		}
 
 
 		//HANDLE INPUTS AND A.I. AND UPDATE MISC THINGS
@@ -240,11 +319,7 @@ int main( int argc, char* args[] )
 			v_Entities[i]->Move();
 			v_Entities[i]->MoveWeapons();
 		}
-
-
-		
-		
-		
+	
 		//DRAW STUFF// ***Higher layers are further down this list**
 		TileManager.RenderStaticBackground();							//image under tiles
 		TileManager.Render();											//Render background Tiles
@@ -306,50 +381,7 @@ int main( int argc, char* args[] )
 		else
 			MapEditor.Stop();
 		
-		//KEYS COMMANDS**********************************
-		if(Controls.key_M){
-			SDL_Rect playerPos = {(TileManager.Get_mapPosition().x - 1)* 160 + (v_Entities[0]->Get_X() / 8), (TileManager.Get_mapPosition().y - 1)* 120  + (v_Entities[0]->Get_Y() / 6)};
-			GUI.Set_playerPosition(playerPos);			
-			mapMode = !mapMode;
-			GUI.Set_initMap(ON);
-		}
-		if(Controls.key_lctrl){//SPAWN 10 Enemies**********************
-			for(int i = 0; i < 10; i ++){
-				C_BaseEntity* Enemy = new C_Enemy1;
-				v_Entities.push_back(Enemy);
-			}
-		}
-		if(Controls.key_lctrl && Controls.key_lshift){//ERASE ALL ENEMIES******************
-			for(int i = 1; i < v_Entities.size(); i++){
-				C_BaseEntity* tempEntity = v_Entities[i];
-				delete tempEntity;
-			}
-			v_Entities.erase(v_Entities.begin()+1, v_Entities.end() );//erase all
-		}
-		if(Controls.key_P)//PARTICLE TEST
-			for(int i = 0; i < 300; i++){
-				C_BaseParticles* tempParticle = new C_BaseParticles;
-				tempParticle->Start(300, 300);
-				v_Particles.push_back(tempParticle);
-			}
-		//SCREEN CAPTURE  >>>>> TODO MAKE CLASS for this
-		if(printScreenReady){
-			switch(printCount){
-			case 0: SDL_SaveBMP(screen, "Screenshots\\test1.bmp"); 
-					break;
-			case 1: SDL_SaveBMP(screen, "Screenshots\\test2.bmp"); 
-					break;
-			case 2: SDL_SaveBMP(screen, "Screenshots\\test3.bmp"); 
-					break;
-			case 3: SDL_SaveBMP(screen, "Screenshots\\test4.bmp"); 
-					break;
-			}
-			Camera.SetCamera(v_Entities[0]->Get_p_X(), v_Entities[0]->Get_p_Y());
-			if(printCount++ > 3){
-				printScreenReady = false;
-				printCount = 0;
-			}				
-		}//END SCREEN CAP
+		Main_keyCommands(v_Entities, GUI);//Handles key presses, mostly for debug right now
 		
 		//NETWORKING*******************************************************************
 		//---Connect

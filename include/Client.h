@@ -12,7 +12,7 @@ class C_Client{
 			s_gamePacket s_playerDataPacket, s_outPacket, s_inPacket;
 
 	private:
-			bool clientActive;
+			bool m_clientActive;
 			long m_bytesSent, m_bytesReceived;
 			const char* m_hostIP;//will host computer name ie: BIGGLES-PC
 			
@@ -23,11 +23,13 @@ class C_Client{
 
 	public:
 			
-			C_Client(bool turn_client_on);
+			C_Client();
 			~C_Client();
 			bool FindConnection();
 			void ReceivePacket();
 			void Send();//sends packet info
+			void isActive(bool on_or_off);
+			void InitClient();
 			
 			
 };
