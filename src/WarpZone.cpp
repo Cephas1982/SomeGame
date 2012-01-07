@@ -71,7 +71,7 @@ void C_WarpZone::Render()
 		m_blue = 200;
 	}//end HIGHTLIGHTED
 
-	SDL_Rect offset = {m_startPosition.x - Camera.Get_XYWH().x, m_startPosition.y - Camera.Get_XYWH().y, m_startPosition.w, m_startPosition.h};
+	SDL_Rect offset = {m_startPosition.x - Camera.Get_XYWH()->x, m_startPosition.y - Camera.Get_XYWH()->y, m_startPosition.w, m_startPosition.h};
 	Uint32 color = SDL_MapRGB(screen->format, m_red, m_green, m_blue);
 	SDL_FillRect(screen, &offset, color);
 }

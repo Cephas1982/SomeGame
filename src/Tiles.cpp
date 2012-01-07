@@ -63,22 +63,22 @@ void C_Tiles::Set_enemyDamage(bool newValue)
 }
 
 //GET Functions////////////////////
-SDL_Rect C_Tiles::Get_tileSDL_Rect()
+SDL_Rect* C_Tiles::Get_tileSDL_Rect()
 {
 	m_tileSDL_Rect.x = m_tileX;
 	m_tileSDL_Rect.y = m_tileY;
 
-	return m_tileSDL_Rect;
+	return &m_tileSDL_Rect;
 }
 
-int C_Tiles::Get_tileX()
+int* C_Tiles::Get_tileX()
 {
-	return m_tileX;
+	return &m_tileX;
 }
 
-int C_Tiles::Get_tileY()
+int* C_Tiles::Get_tileY()
 {
-	return m_tileY;
+	return &m_tileY;
 }
 int C_Tiles::Get_tileWidth()
 {
@@ -92,9 +92,9 @@ int C_Tiles::Get_tilePlane()
 {
 	return m_tilePlane;
 }
-int C_Tiles::Get_tileType()
+int* C_Tiles::Get_tileType()
 {
-	return m_tileType;
+	return &m_tileType;
 }
 bool C_Tiles::Get_destructable()
 {

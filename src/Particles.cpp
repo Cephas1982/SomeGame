@@ -63,6 +63,6 @@ bool C_BaseParticles::Update()
 void C_BaseParticles::Render()
 {
 	if(m_life > 0)
-		pixelRGBA(screen, m_X - Camera.Get_XYWH().x, m_Y - Camera.Get_XYWH().y, m_red, m_green, m_blue, m_alpha);
+		pixelRGBA(screen, m_X - Camera.Get_XYWH()->x, m_Y - Camera.Get_XYWH()->y, m_red, m_green, m_blue, m_alpha);
 }
 #endif

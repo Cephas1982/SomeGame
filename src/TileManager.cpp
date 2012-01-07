@@ -507,21 +507,21 @@ void C_TileManager::Render()
 	p_mainOffset->y = 0;
 
 	//END TEMP
-	for(int y = Camera.Get_XYWH().y/TILE_SIZE; y < (Camera.Get_XYWH().y + SCREEN_HEIGHT)/TILE_SIZE + DrawBufferY; y++)
-		for(int x = Camera.Get_XYWH().x/TILE_SIZE; x < (Camera.Get_XYWH().x + SCREEN_WIDTH)/TILE_SIZE + DrawBufferX; x++)
-			if(Collision.Check(Camera.Get_XYWH(), (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect()) && (*p_mainTileBuffer)[x][y].Get_tileType() != -1 ){//if tiles are on screen  DO NOT DRAW -1
+	for(int y = Camera.Get_XYWH()->y/TILE_SIZE; y < (Camera.Get_XYWH()->y + SCREEN_HEIGHT)/TILE_SIZE + DrawBufferY; y++)
+		for(int x = Camera.Get_XYWH()->x/TILE_SIZE; x < (Camera.Get_XYWH()->x + SCREEN_WIDTH)/TILE_SIZE + DrawBufferX; x++)
+			if(Collision.Check(Camera.Get_XYWH(), (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect()) && *(*p_mainTileBuffer)[x][y].Get_tileType() != -1 ){//if tiles are on screen  DO NOT DRAW -1
 				if( x >= m_mapWidth/2/16 )//Keeps from over drawing IE: vector bound check
 					DrawBufferX = 0;
 				if( y >= m_mapHeight/2/16 )//bounds check **if drawing 2nd half of screen dont add buffer
 					DrawBufferY = 0;
 					
 
-				p_mainOffset->x = (*p_mainTileBuffer)[x][y].Get_tileX() - Camera.Get_XYWH().x + offsetCounterX;
-				p_mainOffset->y = (*p_mainTileBuffer)[x][y].Get_tileY() - Camera.Get_XYWH().y + offsetCounterY;
+				p_mainOffset->x = *(*p_mainTileBuffer)[x][y].Get_tileX() - Camera.Get_XYWH()->x + offsetCounterX;
+				p_mainOffset->y = *(*p_mainTileBuffer)[x][y].Get_tileY() - Camera.Get_XYWH()->y + offsetCounterY;
 				
 				//ADD DEBUG TO SEE INVISIBLE TILES
-				tileClip.x = 16 * (*p_mainTileBuffer)[x][y].Get_tileType() - ((*p_mainTileBuffer)[x][y].Get_tileType()/12 * 16 * 12);
-				tileClip.y = 16 * ((*p_mainTileBuffer)[x][y].Get_tileType()/12); //12 tiles per row in the sprite sheet.
+				tileClip.x = 16 *  (*(*p_mainTileBuffer)[x][y].Get_tileType()) - (*((*p_mainTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
+				tileClip.y = 16 *  ((*(*p_mainTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
 				
 	
 				//AND finally draw the tiles
@@ -539,36 +539,36 @@ void C_TileManager::Render()
 	int transitionOffsetX = 0;
 	int transitionOffsetY = 0;
 	if(transitionDirection == UP){
-		transitionX = Camera.Get_XYWH().x/TILE_SIZE;
+		transitionX = Camera.Get_XYWH()->x/TILE_SIZE;
 		transitionY = 30;//40 tiles down
 		transitionMaxX = transitionX + 40;
 		transitionMaxY = transitionY + 30;
-		transitionOffsetX = -Camera.Get_XYWH().x;
+		transitionOffsetX = -Camera.Get_XYWH()->x;
 		transitionOffsetY = -960;
 	}
 	if(transitionDirection == DOWN){
-		transitionX = Camera.Get_XYWH().x/TILE_SIZE;
+		transitionX = Camera.Get_XYWH()->x/TILE_SIZE;
 		transitionY = 0;//40 tiles down
 		transitionMaxX = transitionX + 40;
 		transitionMaxY = transitionY + 30;
-		transitionOffsetX = -Camera.Get_XYWH().x;
+		transitionOffsetX = -Camera.Get_XYWH()->x;
 		transitionOffsetY = 480;
 	}
 	if(transitionDirection == LEFT){
 		transitionX = 40;//start at middle of map
-		transitionY =  Camera.Get_XYWH().y/TILE_SIZE;//start where camera is
+		transitionY =  Camera.Get_XYWH()->y/TILE_SIZE;//start where camera is
 		transitionMaxX = transitionX+40;
 		transitionMaxY = transitionY + 30;
 		transitionOffsetX = -1280;//move map left 2 screens before showing it
-		transitionOffsetY = -Camera.Get_XYWH().y;
+		transitionOffsetY = -Camera.Get_XYWH()->y;
 	}
 	if(transitionDirection == RIGHT){
 		transitionX = 0;//start at middle of map
-		transitionY =  Camera.Get_XYWH().y/TILE_SIZE;//start where camera is
+		transitionY =  Camera.Get_XYWH()->y/TILE_SIZE;//start where camera is
 		transitionMaxX = transitionX+40;
 		transitionMaxY = transitionY + 30;
 		transitionOffsetX = 640;//move map right 1 screen before showing it
-		transitionOffsetY = -Camera.Get_XYWH().y;
+		transitionOffsetY = -Camera.Get_XYWH()->y;
 	}
 
 	//WHEN TRANSITION STARTS RENDER HERE
@@ -581,12 +581,12 @@ void C_TileManager::Render()
 							DrawBufferY = 0;			
 					
 						//Update Offsets	
-						p_secondOffset->x = (*p_secondTileBuffer)[x][y].Get_tileX() + offsetCounterX + transitionOffsetX;// 
-						p_secondOffset->y = (*p_secondTileBuffer)[x][y].Get_tileY() + offsetCounterY + transitionOffsetY;
+						p_secondOffset->x = *(*p_secondTileBuffer)[x][y].Get_tileX() + offsetCounterX + transitionOffsetX;// 
+						p_secondOffset->y = *(*p_secondTileBuffer)[x][y].Get_tileY() + offsetCounterY + transitionOffsetY;
 				
 						//ADD DEBUG TO SEE INVISIBLE TILES
-						tileClip.x = 16 * (*p_secondTileBuffer)[x][y].Get_tileType() - ((*p_secondTileBuffer)[x][y].Get_tileType()/12 * 16 * 12);
-						tileClip.y = 16 * ((*p_secondTileBuffer)[x][y].Get_tileType()/12); //12 tiles per row in the sprite sheet.
+						tileClip.x = 16 * (*(*p_secondTileBuffer)[x][y].Get_tileType()) - ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
+						tileClip.y = 16 * ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
 	
 						//AND finally draw the tiles
 						if(m_mapTransition == true)
@@ -621,7 +621,7 @@ void C_TileManager::Set_tileSolid(int x, int y, bool newValue)
 	(*p_mainTileBuffer)[x][y].Set_solid(newValue);
 }
 //GET FUNCTIONS
-SDL_Rect C_TileManager::Get_tileOffset(int x, int y)
+SDL_Rect* C_TileManager::Get_tileOffset(int x, int y)
 {
 	return (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect();
 }
@@ -633,7 +633,7 @@ int C_TileManager::GetPlane()
 {
 	return 1;//NOT DONE TODO
 }
-int C_TileManager::Get_tileType(int newX, int newY)
+int* C_TileManager::Get_tileType(int newX, int newY)
 {
 	return (*p_mainTileBuffer)[newX][newY].Get_tileType();
 }

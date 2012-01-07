@@ -49,7 +49,7 @@ C_Player1::~C_Player1()
 
 void C_Player1::Render()
 {
-	SDL_Rect offset = {Get_X() - Camera.Get_XYWH().x, Get_Y() - Camera.Get_XYWH().y, PLAYER_WIDTH, PLAYER_HEIGHT};
+	SDL_Rect offset = {Get_X() - Camera.Get_XYWH()->x, Get_Y() - Camera.Get_XYWH()->y, PLAYER_WIDTH, PLAYER_HEIGHT};
 	Uint32 color = SDL_MapRGB(screen->format,  255, 0, 0);
 	SDL_FillRect(screen, &offset, color);
 }

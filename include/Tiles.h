@@ -35,13 +35,13 @@ class C_Tiles
 			void Set_enemyDamage(bool);
 
 			//GET Functions
-			SDL_Rect Get_tileSDL_Rect();
-			int Get_tileX();
-			int Get_tileY();
+			SDL_Rect* Get_tileSDL_Rect();
+			int* Get_tileX();
+			int* Get_tileY();
 			int Get_tileWidth();
 			int Get_tileHeight();
 			int Get_tilePlane();
-			int Get_tileType();
+			int* Get_tileType();
 			bool Get_destructable();
 			bool Get_solid();
 			bool Get_friendlyDamage();

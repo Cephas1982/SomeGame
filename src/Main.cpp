@@ -420,13 +420,13 @@ int main( int argc, char* args[] )
 		
 		//Pretend to see a client(if you're the host) (player1 +20 pixels to the right, and 20 up);
 		if(g_ClientorServer == CLIENT){//draw the SERVER
-			SDL_Rect offset = {Client.s_inPacket.m_playerPosition.x - Camera.Get_XYWH().x, Client.s_inPacket.m_playerPosition.y - Camera.Get_XYWH().y, PLAYER_WIDTH, PLAYER_HEIGHT};
+			SDL_Rect offset = {Client.s_inPacket.m_playerPosition.x - Camera.Get_XYWH()->x, Client.s_inPacket.m_playerPosition.y - Camera.Get_XYWH()->y, PLAYER_WIDTH, PLAYER_HEIGHT};
 			Uint32 color = SDL_MapRGB(screen->format,  255, 255, 0);
 			SDL_FillRect(screen, &offset, color);		
 		}
 		//Pretend to see a host (if you're the client) (player1 +20 pixels to the right, and 20 up);
 		if(g_ClientorServer == SERVER){//draw the SERVER
-			SDL_Rect offset = {Server.s_inPacket.m_playerPosition.x - Camera.Get_XYWH().x, Server.s_inPacket.m_playerPosition.y - Camera.Get_XYWH().y, PLAYER_WIDTH, PLAYER_HEIGHT};
+			SDL_Rect offset = {Server.s_inPacket.m_playerPosition.x - Camera.Get_XYWH()->x, Server.s_inPacket.m_playerPosition.y - Camera.Get_XYWH()->y, PLAYER_WIDTH, PLAYER_HEIGHT};
 			Uint32 color = SDL_MapRGB(screen->format,  255, 255, 0);
 			SDL_FillRect(screen, &offset, color);		
 		}

@@ -73,9 +73,9 @@ void C_Camera::Set_cameraType(int cameraType)
 }
 
 //GET FUNCTIONS
-SDL_Rect C_Camera::Get_XYWH()
+SDL_Rect* C_Camera::Get_XYWH()
 {
-    return theCamera;         
+    return &theCamera;         
 }
 int* C_Camera::Get_X()
 {

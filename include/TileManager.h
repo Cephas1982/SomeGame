@@ -61,10 +61,10 @@ class C_TileManager
 			void Set_tileSolid(int, int, bool);
 
 			//GET FUNCTIONS
-			SDL_Rect Get_tileOffset(int, int);
+			SDL_Rect* Get_tileOffset(int, int);
 			int Get_transitionDirection();//returns -1 if not transitioning
 			int GetPlane();
-			int Get_tileType(int, int);
+			int* Get_tileType(int, int);
 			bool Get_tileSolid(int, int);
 			SDL_Rect Get_tileBufferOffset();//returns m_mainOffset... probably used for map transitions
 			int Get_offsetCounterX();//used to track where player goes and screen position

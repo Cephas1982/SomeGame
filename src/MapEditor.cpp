@@ -170,7 +170,7 @@ void C_MapEditor::Update()//General inputs
 void C_MapEditor::HandleMouse()
 {
 	//Cursor
-	SDL_Rect cursorPosition= {(m_mouseX - Camera.Get_XYWH().x), (m_mouseY - Camera.Get_XYWH().y)};
+	SDL_Rect cursorPosition= {(m_mouseX - Camera.Get_XYWH()->x), (m_mouseY - Camera.Get_XYWH()->y)};
 
 	SDL_Rect cursorIcon = {m_tileType * 16, m_tileType/12 * 16, 16, 16};
 	if(cursorIcon.y > 0)
@@ -193,10 +193,10 @@ void C_MapEditor::HandleMouse()
 		highlightStop.x = int(m_mouseX / TILE_SIZE) * TILE_SIZE;
 		highlightStop.y = int(m_mouseY / TILE_SIZE) * TILE_SIZE;
 
-		highlightArea.x = highlightStart.x - Camera.Get_XYWH().x;
-		highlightArea.y = highlightStart.y - Camera.Get_XYWH().y;
-		highlightArea.w = highlightStop.x - Camera.Get_XYWH().x;
-		highlightArea.h = highlightStop.y - Camera.Get_XYWH().y;
+		highlightArea.x = highlightStart.x - Camera.Get_XYWH()->x;
+		highlightArea.y = highlightStart.y - Camera.Get_XYWH()->y;
+		highlightArea.w = highlightStop.x - Camera.Get_XYWH()->x;
+		highlightArea.h = highlightStop.y - Camera.Get_XYWH()->y;
 	}
 
 	//SELECT ALL
@@ -218,8 +218,8 @@ void C_MapEditor::HandleMouse()
 
 	//Poll mouse
 	if( event.type == SDL_MOUSEMOTION ){ 
-		m_mouseX = event.motion.x + Camera.Get_XYWH().x;//update mouse x,y position
-        m_mouseY = event.motion.y + Camera.Get_XYWH().y;
+		m_mouseX = event.motion.x + Camera.Get_XYWH()->x;//update mouse x,y position
+        m_mouseY = event.motion.y + Camera.Get_XYWH()->y;
     }
 
 	//Output mouse info
@@ -231,7 +231,7 @@ void C_MapEditor::HandleMouse()
 			   //<< "  Right Clicking?: " << Controls.rightClick << "  highlightStartX/Y: " << highlightStart.x << " / " << highlightStart.y << "  highlightStopX/Y: " << highlightStop.x << " / " << highlightStop.y ;
 			   //<< "  bufferOffset x/y:  " << p_tileManager->Get_tileBufferOffset().x << " / " << p_tileManager->Get_tileBufferOffset().y;
 			   //<< "Map Position ( " << p_tileManager->Get_mapPosition().x << " , " << p_tileManager->Get_mapPosition().y << " )   zone type: " << p_tileManager->Get_mapType() << "OBJ TYPE: " << m_bgTypeShowing;
-			   << " Map Mode mouse x/y: " <<int((m_mouseX - Camera.Get_XYWH().x)*tempMouseX) %160 << " | " << (m_mouseY - Camera.Get_XYWH().y)*tempMouseY;
+			   << " Map Mode mouse x/y: " <<int((m_mouseX - Camera.Get_XYWH()->x)*tempMouseX) %160 << " | " << (m_mouseY - Camera.Get_XYWH()->y)*tempMouseY;
 	Font.Print(&mouse_info, screen, 12, 0, 16);
 
 	//Handle clicks //TODO seperate function for this
@@ -270,13 +270,13 @@ void C_MapEditor::HandleMouse()
 	}
 
 	//AUTO REPOSITION MENU
-	if(m_mouseX - Camera.Get_XYWH().x > 600)
+	if(m_mouseX - Camera.Get_XYWH()->x > 600)
 		m_menuX = 0;
-	if(m_mouseX - Camera.Get_XYWH().x < 40)
+	if(m_mouseX - Camera.Get_XYWH()->x < 40)
 		m_menuX = 400;
-	if(m_mouseY - Camera.Get_XYWH().y > 440)
+	if(m_mouseY - Camera.Get_XYWH()->y > 440)
 		m_menuY = 64;
-	if(m_mouseY - Camera.Get_XYWH().y < 40)
+	if(m_mouseY - Camera.Get_XYWH()->y < 40)
 		m_menuY =  SCREEN_HEIGHT - 16*m_numOfRows;
 
 	//if on bottom reposition when it expands
@@ -289,8 +289,8 @@ void C_MapEditor::HighlightOptions()
 	//DRAWING TILE TO HIGHLIGHTED AREA
 	if(m_showHighlight)//if something is highlighted
 		if(Controls.key_S){//if pressing S while stuff is highlighted draw stuff
-			for(int x = highlightArea.x / TILE_SIZE + Camera.Get_XYWH().x / TILE_SIZE; x < highlightArea.w / TILE_SIZE + Camera.Get_XYWH().x / TILE_SIZE; x++)
-				for(int y = highlightArea.y / TILE_SIZE + Camera.Get_XYWH().y / TILE_SIZE; y < highlightArea.h / TILE_SIZE + Camera.Get_XYWH().y / TILE_SIZE; y++)
+			for(int x = highlightArea.x / TILE_SIZE + Camera.Get_XYWH()->x / TILE_SIZE; x < highlightArea.w / TILE_SIZE + Camera.Get_XYWH()->x / TILE_SIZE; x++)
+				for(int y = highlightArea.y / TILE_SIZE + Camera.Get_XYWH()->y / TILE_SIZE; y < highlightArea.h / TILE_SIZE + Camera.Get_XYWH()->y / TILE_SIZE; y++)
 					p_tileManager->Set_tileType(x, y, m_tileType);//set tile type to this
 			m_showHighlight = false;
 		}
@@ -298,8 +298,8 @@ void C_MapEditor::HighlightOptions()
 	//DELETING TILE FROM HIGHLIGHTED AREA
 	if(m_showHighlight)//if something is highlighted
 		if(Controls.key_delete){//if pressing D while stuff is highlighted delete stuff
-			for(int x = highlightArea.x / TILE_SIZE + Camera.Get_XYWH().x / TILE_SIZE; x < highlightArea.w / TILE_SIZE + Camera.Get_XYWH().x / TILE_SIZE; x++)
-				for(int y = highlightArea.y / TILE_SIZE + Camera.Get_XYWH().y / TILE_SIZE; y < highlightArea.h / TILE_SIZE + Camera.Get_XYWH().y / TILE_SIZE; y++)
+			for(int x = highlightArea.x / TILE_SIZE + Camera.Get_XYWH()->x / TILE_SIZE; x < highlightArea.w / TILE_SIZE + Camera.Get_XYWH()->x / TILE_SIZE; x++)
+				for(int y = highlightArea.y / TILE_SIZE + Camera.Get_XYWH()->y / TILE_SIZE; y < highlightArea.h / TILE_SIZE + Camera.Get_XYWH()->y / TILE_SIZE; y++)
 					p_tileManager->Set_tileType(x, y, -1);//set tile type to this
 			m_showHighlight = false;
 		}
@@ -314,7 +314,7 @@ void C_MapEditor::HighlightOptions()
 					
 					currentTile.Set_tileWidth(TILE_SIZE);
 					currentTile.Set_tileHeight(TILE_SIZE);
-					currentTile.Set_tileType(p_tileManager->Get_tileType((highlightArea.x + Camera.Get_XYWH().x)/TILE_SIZE + x, (highlightArea.y + Camera.Get_XYWH().y)/TILE_SIZE + y ) ); //adding camera position to get position of tile even when scrolling
+					currentTile.Set_tileType(*p_tileManager->Get_tileType((highlightArea.x + Camera.Get_XYWH()->x)/TILE_SIZE + x, (highlightArea.y + Camera.Get_XYWH()->y)/TILE_SIZE + y ) ); //adding camera position to get position of tile even when scrolling
 					currentTile.Set_destructable(false);
 					currentTile.Set_solid(false);
 					currentTile.Set_friendlyDamage(false);
@@ -338,13 +338,13 @@ void C_MapEditor::HighlightOptions()
 			for(int y = 0; y < v2d_tileBuffer[x].size(); y++)
 			{
 				m_showPaste = true;
-				tileClip.x = 16 * v2d_tileBuffer[x][y].Get_tileType() - (v2d_tileBuffer[x][y].Get_tileType()/12 * 16 * 12);//12 is the amount of tiles per row
-				tileClip.y = 16 * (v2d_tileBuffer[x][y].Get_tileType()/12); //12 tiles per row in the sprite sheet.
+				tileClip.x = 16 * *v2d_tileBuffer[x][y].Get_tileType() - (*v2d_tileBuffer[x][y].Get_tileType()/12 * 16 * 12);//12 is the amount of tiles per row
+				tileClip.y = 16 * (*v2d_tileBuffer[x][y].Get_tileType()/12); //12 tiles per row in the sprite sheet.
 				
 				//AND finally draw the tiles
 				if(m_showPaste == true){
-					offset.x = m_mouseX + v2d_tileBuffer[x][y].Get_tileX() - Camera.Get_XYWH().x;
-					offset.y = m_mouseY + v2d_tileBuffer[x][y].Get_tileY() - Camera.Get_XYWH().y;	
+					offset.x = m_mouseX + *v2d_tileBuffer[x][y].Get_tileX() - Camera.Get_XYWH()->x;
+					offset.y = m_mouseY + *v2d_tileBuffer[x][y].Get_tileY() - Camera.Get_XYWH()->y;	
 
 					//Getto stop to prevent overflow on vector
 					if((m_mouseX + highlightArea.w - highlightArea.x) > LEVEL_WIDTH)
@@ -365,7 +365,7 @@ void C_MapEditor::HighlightOptions()
 			for(int y = 0; y < v2d_tileBuffer[x].size(); y++){
 				
 				//Paste these to tiles on screen
-				p_tileManager->Set_tileType(m_mouseX / TILE_SIZE + x, m_mouseY / TILE_SIZE + y, v2d_tileBuffer[x][y].Get_tileType() );
+				p_tileManager->Set_tileType(m_mouseX / TILE_SIZE + x, m_mouseY / TILE_SIZE + y, *v2d_tileBuffer[x][y].Get_tileType() );
 			}
 	
 	//DEBUG~ISH STUFF
@@ -926,7 +926,7 @@ void C_MapEditor::BG_ObjectsMenu()
 		Camera.SetCamera((*pv_Entities)[0]->Get_p_X(), (*pv_Entities)[0]->Get_p_Y());
 
 	//Get offsets to create objects
-	SDL_Rect mouseOffset ={m_mouseX - Camera.Get_XYWH().x, m_mouseY - Camera.Get_XYWH().y};
+	SDL_Rect mouseOffset ={m_mouseX - Camera.Get_XYWH()->x, m_mouseY - Camera.Get_XYWH()->y};
 	BackgroundManager.RenderList(m_bgTypeShowing, mouseOffset);
 
 	if(Controls.enter || Controls.leftClick || Controls.rightClick)
@@ -992,8 +992,8 @@ void C_MapEditor::NavigateMenus()
 
 void C_MapEditor::WorldMapNav()
 {
-	int x = (m_mouseX - Camera.Get_XYWH().x) - p_GUI->Get_mapPanX();///80 * 80;
-	int y = (m_mouseY - Camera.Get_XYWH().y) - p_GUI->Get_mapPanY();///60 * 60;
+	int x = (m_mouseX - Camera.Get_XYWH()->x) - p_GUI->Get_mapPanX();///80 * 80;
+	int y = (m_mouseY - Camera.Get_XYWH()->y) - p_GUI->Get_mapPanY();///60 * 60;
 
 	int posx = x%int(160 * p_GUI->Get_zoomAxisX()*2) * 8; //should give player x/y position within zone
 	int posy = y%int(120 * p_GUI->Get_zoomAxisY()*2) * 8; //should give player x/y position within zone

@@ -51,7 +51,7 @@ void C_BaseWeapon::Set_flags(int FlagToToggle, bool onOff)
 }
 void C_BaseWeapon::Render()
 {
-	SDL_Rect offset = {mW_X - Camera.Get_XYWH().x, mW_Y - Camera.Get_XYWH().y , 20, 20};
+	SDL_Rect offset = {mW_X - Camera.Get_XYWH()->x, mW_Y - Camera.Get_XYWH()->y , 20, 20};
 	Uint32 color = SDL_MapRGB(screen->format,  255, 255, 0);
 	SDL_FillRect(screen, &offset, color);
 }
@@ -65,9 +65,9 @@ int C_BaseWeapon::Get_weaponType()
 {
 	return mW_weaponType;
 }
-SDL_Rect C_BaseWeapon::Get_hitbox()
+SDL_Rect* C_BaseWeapon::Get_hitbox()
 {
-	return mW_hitbox;
+	return &mW_hitbox;
 }
 int C_BaseWeapon::Get_destructProperties()
 {

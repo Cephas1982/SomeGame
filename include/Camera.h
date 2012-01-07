@@ -24,7 +24,7 @@ class C_Camera
 			 void Set_cameraType(int); //For now there's indoor (camera off basically), and outdoor
 			
 			 //GET
-			 SDL_Rect Get_XYWH(); //returns SDL_Rect of camera coordinates
+			 SDL_Rect* Get_XYWH(); //returns SDL_Rect of camera coordinates
 			 int* Get_X();//return pointer
 			 int* Get_Y();
 }; 

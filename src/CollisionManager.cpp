@@ -69,14 +69,14 @@ void C_CollisionManager::Check_EntityVsTile(std::vector<C_BaseEntity*>* v_Entiti
 						checkHere.y = LEVEL_HEIGHT - 1;//LEVEL_HEIGHT;
 					if(checkHere.y < 0)
 						checkHere.y = 0;//0
-					if(CollisionChecker.Check(playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){//if there is a collision while moving right
+					if(CollisionChecker.Check(&playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){//if there is a collision while moving right
 						//IF PLAYER IS MOVING IN A DIAGONAL
 						if((*v_Entities)[i]->Get_xSpeed() != 0 && (*v_Entities)[i]->Get_ySpeed() != 0){
 
 							//CHECK UP & DOWN
 							float axisOffset = (*v_Entities)[i]->Get_X() + (*v_Entities)[i]->Get_xSpeed();//(playerPosition.x);
 							playerPosition.x = axisOffset - tempX; //subtract X magnitude and see if there's a collision on Y axis				
-							if(CollisionChecker.Check(playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){
+							if(CollisionChecker.Check(&playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){
 								newSpeedY = 0;	
 								(*v_Entities)[i]->Set_hittingWall(true);//if there's a collision let A.I. know it hit a wall
 							}
@@ -85,7 +85,7 @@ void C_CollisionManager::Check_EntityVsTile(std::vector<C_BaseEntity*>* v_Entiti
 							//CHECK LEFT & RIGHT
 							axisOffset = (*v_Entities)[i]->Get_Y() + (*v_Entities)[i]->Get_ySpeed();
 							playerPosition.y = axisOffset - tempY; //subtract Y magnitude and see if there's a collision on X axis
-							if(CollisionChecker.Check(playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){
+							if(CollisionChecker.Check(&playerPosition, TileManager.Get_tileOffset(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE)) && (TileManager.Get_tileSolid(checkHere.x/TILE_SIZE, checkHere.y/TILE_SIZE) == true) ){
 								newSpeedX = 0;
 								(*v_Entities)[i]->Set_hittingWall(true);//if there's a collision let A.I. know it hit a wall
 							}
@@ -138,7 +138,7 @@ void C_CollisionManager::Check_EntityVsObjects(std::vector<C_BaseEntity*>* v_Ent
 			if(checkHere.y >= LEVEL_HEIGHT)
 				checkHere.y = 0;//LEVEL_HEIGHT;
 			for(int i = 0; i < TileManager.Get_WarpCount(); i++)
-				if(CollisionChecker.Check(playerPosition, TileManager.Get_WarpPosition(i)) ){//if player touches a warp zone
+				if(CollisionChecker.Check(&playerPosition, &TileManager.Get_WarpPosition(i)) ){//if player touches a warp zone
 					//lock player controls
 
 
@@ -180,7 +180,7 @@ void C_CollisionManager::Check_PlayerVsEnemy(std::vector<C_BaseEntity*>* v_Entit
 		//check player vs enemy collisions
 		if(CollisionChecker.Check((*v_Entities)[0]->Get_hitbox(), (*v_Entities)[i]->Get_hitbox()))//if player an enemy collide
 			if((*v_Entities)[0]->Set_hitPoints((*v_Entities)[0]->Get_hitPoints() - 1)) //take some damage ( - 1 dmg for now)
-				p_GUI->StartDisplayDmg( (*v_Entities)[0]->Get_hitbox(),  -1);//if taking dmg show the dmg being taken
+				p_GUI->StartDisplayDmg( *(*v_Entities)[0]->Get_hitbox(),  -1);//if taking dmg show the dmg being taken
 	}
 }
 
@@ -219,27 +219,27 @@ void C_CollisionManager::Check_WeaponVsWeapon(std::vector<C_BaseEntity*>* v_Enti
 								case DESTROY_WEAPON1: (*v_Entities)[i]->Weapon_KillWeapon(j);
 														for(int p = 0; p < 150; p++){//MAKE PARTICLES
 															C_BaseParticles* tempParticle = new C_BaseParticles;
-															tempParticle->Start((*v_Entities)[i]->Weapon_Get_hitbox(j).x, (*v_Entities)[i]->Weapon_Get_hitbox(j).y);
+															tempParticle->Start((*v_Entities)[i]->Weapon_Get_hitbox(j)->x, (*v_Entities)[i]->Weapon_Get_hitbox(j)->y);
 															v_Particles.push_back(tempParticle);
 														}
 														break;
 								case DESTROY_WEAPON2: (*v_Entities)[ii]->Weapon_KillWeapon(jj);
 														for(int p = 0; p < 150; p++){//MAKE PARTICLES
 															C_BaseParticles* tempParticle = new C_BaseParticles;
-															tempParticle->Start((*v_Entities)[ii]->Weapon_Get_hitbox(jj).x, (*v_Entities)[i]->Weapon_Get_hitbox(j).y);
+															tempParticle->Start((*v_Entities)[ii]->Weapon_Get_hitbox(jj)->x, (*v_Entities)[i]->Weapon_Get_hitbox(j)->y);
 															v_Particles.push_back(tempParticle);
 														}
 
 								case DESTROY_BOTH:	(*v_Entities)[i]->Weapon_KillWeapon(j);
 														for(int p = 0; p < 150; p++){//MAKE PARTICLES
 															C_BaseParticles* tempParticle = new C_BaseParticles;
-															tempParticle->Start((*v_Entities)[i]->Weapon_Get_hitbox(j).x, (*v_Entities)[i]->Weapon_Get_hitbox(j).y);
+															tempParticle->Start((*v_Entities)[i]->Weapon_Get_hitbox(j)->x, (*v_Entities)[i]->Weapon_Get_hitbox(j)->y);
 															v_Particles.push_back(tempParticle);
 														}  
 													(*v_Entities)[ii]->Weapon_KillWeapon(jj);
 														for(int p = 0; p < 150; p++){//MAKE PARTICLES
 															C_BaseParticles* tempParticle = new C_BaseParticles;
-															tempParticle->Start((*v_Entities)[ii]->Weapon_Get_hitbox(jj).x, (*v_Entities)[i]->Weapon_Get_hitbox(j).y);
+															tempParticle->Start((*v_Entities)[ii]->Weapon_Get_hitbox(jj)->x, (*v_Entities)[i]->Weapon_Get_hitbox(j)->y);
 															v_Particles.push_back(tempParticle);
 														}
 														break;

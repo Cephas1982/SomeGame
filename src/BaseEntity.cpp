@@ -64,7 +64,7 @@ void C_BaseEntity::Debug()
 {
 	std::stringstream debug_output;
 	debug_output << "Player position:   " << m_X << " / " << m_Y << "    Player tile position: " << m_X/16 << " / " << m_Y/16
-				 << "   Camera x/y:  " << Camera.Get_XYWH().x << " / " << Camera.Get_XYWH().y
+				 << "   Camera x/y:  " << Camera.Get_XYWH()->x << " / " << Camera.Get_XYWH()->y
 				 << "Hit Points: " << m_hitPoints; 
 
 	DebugFont.Print(&debug_output, screen, 12, 0, 32);
@@ -160,12 +160,15 @@ bool C_BaseEntity::Get_lockControls()
 {
 	return m_lockControls;
 }
-SDL_Rect C_BaseEntity::Get_hitbox()
+SDL_Rect* C_BaseEntity::Get_hitbox()
 {
-	SDL_Rect hitbox = {m_X, m_Y, PLAYER_WIDTH, PLAYER_HEIGHT}; //TODO: specificy height/width for each entity
-	return hitbox;
+	m_hitBox.x = m_X;
+	m_hitBox.y = m_Y;
+	m_hitBox.w = PLAYER_WIDTH;
+	m_hitBox.h = PLAYER_HEIGHT; //TODO: specificy height/width for each entity
+	return &m_hitBox;
 }
-SDL_Rect C_BaseEntity::Weapon_Get_hitbox(int element)
+SDL_Rect* C_BaseEntity::Weapon_Get_hitbox(int element)
 {
 		return Weapons[element]->Get_hitbox();//TODO ERROR PROOF
 }
