@@ -29,7 +29,7 @@ C_GUI::C_GUI()
 C_GUI::~C_GUI()
 {
 }
-
+//Draw stuff
 void C_GUI::Render_Map()
 {
 		SDL_Rect markerPosition = {0, 0};
@@ -116,6 +116,25 @@ void C_GUI::Render_HitPoints()
 				ShowDamage[i].is_finished = true;
 		}
 	
+}
+void C_GUI::Render_Lobby(bool isActive)
+{
+	if(isActive){
+		//render lobby if ON
+		std::stringstream output;
+		output << "PLAYERS CONNECTED:";
+		GUI_Text.Print(&output, screen, 18, 100, 100);
+
+
+
+
+
+
+
+
+
+
+	}
 }
 
 //GET FUNCTIONS
