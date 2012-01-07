@@ -498,8 +498,8 @@ void C_TileManager::LoadCave()
 void C_TileManager::Render()
 {
 	//TEMP
-	int DrawBufferX = TILE_SIZE *2;
-	int DrawBufferY = 0;
+	int DrawBufferX = 1;
+	int DrawBufferY = 1;
 	SDL_Rect tileClip={0,0, TILE_SIZE, TILE_SIZE};
 
 	
@@ -508,26 +508,28 @@ void C_TileManager::Render()
 
 	//END TEMP
 	for(int y = Camera.Get_XYWH()->y/TILE_SIZE; y < (Camera.Get_XYWH()->y + SCREEN_HEIGHT)/TILE_SIZE + DrawBufferY; y++)
-		for(int x = Camera.Get_XYWH()->x/TILE_SIZE; x < (Camera.Get_XYWH()->x + SCREEN_WIDTH)/TILE_SIZE + DrawBufferX; x++)
-			if(Collision.Check(Camera.Get_XYWH(), (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect()) && *(*p_mainTileBuffer)[x][y].Get_tileType() != -1 ){//if tiles are on screen  DO NOT DRAW -1
-				if( x >= m_mapWidth/2/16 )//Keeps from over drawing IE: vector bound check
+		for(int x = Camera.Get_XYWH()->x/TILE_SIZE; x < (Camera.Get_XYWH()->x + SCREEN_WIDTH)/TILE_SIZE + DrawBufferX; x++){
+				if( x == m_mapWidth/16 ){//Keeps from over drawing IE: vector bound check
+					x = 79;//tiles in an overworld range from 0 to 79.  Overflow check
 					DrawBufferX = 0;
-				if( y >= m_mapHeight/2/16 )//bounds check **if drawing 2nd half of screen dont add buffer
+				}
+				if( y == m_mapHeight/16 ){//bounds check **if drawing 2nd half of screen dont add buffer
+					y = 59;//tiles in an overworld range from 0 to 79.  Overflow check
 					DrawBufferY = 0;
+				}
+				if(Collision.Check(Camera.Get_XYWH(), (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect()) && *(*p_mainTileBuffer)[x][y].Get_tileType() != -1 )//{//if tiles are on screen  DO NOT DRAW -1				
+					p_mainOffset->x = *(*p_mainTileBuffer)[x][y].Get_tileX() - Camera.Get_XYWH()->x + offsetCounterX;
+					p_mainOffset->y = *(*p_mainTileBuffer)[x][y].Get_tileY() - Camera.Get_XYWH()->y + offsetCounterY;
+				
+					//ADD DEBUG TO SEE INVISIBLE TILES
+					tileClip.x = 16 *  (*(*p_mainTileBuffer)[x][y].Get_tileType()) - (*((*p_mainTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
+					tileClip.y = 16 *  ((*(*p_mainTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
+				
+					//AND finally draw the tiles
+					if(m_mapTransition == true)
+						MapTransition(-99);
 					
-
-				p_mainOffset->x = *(*p_mainTileBuffer)[x][y].Get_tileX() - Camera.Get_XYWH()->x + offsetCounterX;
-				p_mainOffset->y = *(*p_mainTileBuffer)[x][y].Get_tileY() - Camera.Get_XYWH()->y + offsetCounterY;
-				
-				//ADD DEBUG TO SEE INVISIBLE TILES
-				tileClip.x = 16 *  (*(*p_mainTileBuffer)[x][y].Get_tileType()) - (*((*p_mainTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
-				tileClip.y = 16 *  ((*(*p_mainTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
-				
-	
-				//AND finally draw the tiles
-				if(m_mapTransition == true)
-					MapTransition(-99);
-				SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, screen, p_mainOffset);
+					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, screen, p_mainOffset);
 			
 
 		}
