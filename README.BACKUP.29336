@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+my fake zelda clone (ogre port soon!)
+you'll need to link to these libraries
+SDL
+SDL_image
+SDL_gfx
+SDL_net
+SDL_ttf
+=======
+My zelda clone
+easy way to setup: create an enviroment variable 'LIBRARIES' and have all the following libaries inside that directory
+libraries used:
+SDL
+SDL_image
+SDL_ttf
+SDL_net
+SDL_gfx
+SDL_mixer
+>>>>>>> 969dc792fe49b2b82d2395894cfabe3ae1051da2

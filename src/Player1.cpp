@@ -263,7 +263,7 @@ void C_Player1::Move()
 
 				
 
-	//***************************************************ZONING STUFF
+	//***************************************************ZONING STUFF /Scroll the screen and load in new zones when player hits an edge
 			//  16 X 8  sized map!!!!
 
 
@@ -285,7 +285,7 @@ void C_Player1::Move()
 			SDL_Rect updateMapPosition = {TileManager.Get_mapPosition().x - 1, TileManager.Get_mapPosition().y};
 			TileManager.Set_mapPosition(updateMapPosition);
 		}
-	if(m_X == 1250 && TileManager.Get_transitionDirection() == -1)//zone RIGHT if not already zoning
+	if(m_X > 1250 && TileManager.Get_transitionDirection() == -1)//zone RIGHT if not already zoning
 		if(TileManager.Get_mapPosition().x != 8){//if not at far right
 			TileManager.MapTransition(RIGHT);
 			SDL_Rect updateMapPosition = {TileManager.Get_mapPosition().x + 1, TileManager.Get_mapPosition().y};

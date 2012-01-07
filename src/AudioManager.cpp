@@ -5,6 +5,9 @@
 C_AudioManager::C_AudioManager()
 {
 	m_currentTrack = -1;
+
+
+
 }
 C_AudioManager::~C_AudioManager()
 {
@@ -32,12 +35,12 @@ int C_AudioManager::LoadMusic()
 	v_MusicLibrary.push_back(MusicToLoad);
 
 
+	Mix_VolumeMusic(10);
 
-/*
-	char* geterr;
+	//Error checking
 	if(MusicToLoad == NULL)
-		geterr = Mix_GetError();	
-*/	
+		printf("Error loading music: %s", Mix_GetError());
+	
 
 	return 1;
 
@@ -45,11 +48,8 @@ int C_AudioManager::LoadMusic()
 }
 int C_AudioManager::LoadSFX()
 {
-	char *errorMsg;
 	Mix_Chunk *SfxToLoad = NULL;
 	SfxToLoad = Mix_LoadWAV("Audio\\LTTP_Sword1.wav");
-	if(SfxToLoad == NULL)
-		errorMsg = Mix_GetError();
 	v_SFXLibrary.push_back(SfxToLoad);
 
 	SfxToLoad = Mix_LoadWAV("Audio\\LTTP_Boomerang.wav");
@@ -60,6 +60,13 @@ int C_AudioManager::LoadSFX()
 
 	SfxToLoad = Mix_LoadWAV("Audio\\SFX\\LTTP_Link_Dying.wav");
 	v_SFXLibrary.push_back(SfxToLoad);
+
+
+	if(SfxToLoad == NULL)
+		printf("Error loading sfx: %s", Mix_GetError());
+
+	//Set sfx volume, todo: let user config
+	Mix_Volume(-1, 12);
 
 	return 1;//TODO FIx these. They're not returning anything right now 
 }

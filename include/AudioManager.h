@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <vector>
+#include <iostream>
 
 class C_AudioManager{
 

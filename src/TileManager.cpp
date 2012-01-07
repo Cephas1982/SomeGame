@@ -498,7 +498,7 @@ void C_TileManager::LoadCave()
 void C_TileManager::Render()
 {
 	//TEMP
-	int DrawBufferX = 0;
+	int DrawBufferX = TILE_SIZE *2;
 	int DrawBufferY = 0;
 	SDL_Rect tileClip={0,0, TILE_SIZE, TILE_SIZE};
 
