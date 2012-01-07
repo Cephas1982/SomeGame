@@ -375,7 +375,7 @@ int main( int argc, char* args[] )
 		if(!mapMode && !MapEditorActive)								//GUI when not viewing map or editing GUI
 			GUI.Render_PlayerStatus(&v_Entities);
 
-		GUI.Render_Lobby(ON);								//*************current focus. todo: finish lobby for netplay
+		GUI.Render_Lobby(ON, Server.GetNetworkDetails());				//*************current focus. todo: finish lobby for netplay
 
 		TileManager.Transitions_Render();								//Handle transitions ***KEEP AT TOP**
 

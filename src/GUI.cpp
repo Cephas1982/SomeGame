@@ -117,13 +117,17 @@ void C_GUI::Render_HitPoints()
 		}
 	
 }
-void C_GUI::Render_Lobby(bool isActive)
+void C_GUI::Render_Lobby(bool isActive, s_networkInfo networkInfo)
 {
 	if(isActive){
 		//render lobby if ON
 		std::stringstream output;
-		output << "PLAYERS CONNECTED:";
+		output << "PLAYERS CONNECTED: " << networkInfo.playerCount;
 		GUI_Text.Print(&output, screen, 18, 100, 100);
+
+		output << "Who is connected: " << networkInfo.playerName[0];
+		GUI_Text.Print(&output, screen, 18, 100, 130);
+
 
 
 
