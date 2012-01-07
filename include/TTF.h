@@ -17,6 +17,6 @@ class C_Font
       public://TODO wtf why can't i pass/copy sstream pointer
              C_Font();
              ~C_Font();
-             void Print(std::stringstream *, SDL_Surface *, int = 12, int = 0, int = 440, int = 255, int = 255, int = 250 ); //output, screen, x and y coordinate, R, G, B
+             void Print(std::stringstream *, SDL_Surface *, int SIZE = 12, int X_position = 0, int Y_position = 440, int RED = 255, int GREEN = 255, int BLUE = 250 ); //output, screen, x and y coordinate, R, G, B
 };
 #endif
