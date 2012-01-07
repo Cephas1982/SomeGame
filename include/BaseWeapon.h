@@ -58,7 +58,7 @@ class C_BaseWeapon{
 		int Get_Y();//same
 		bool Get_isFinished();//returns 'stop' variable for now. Later will make Get_flags() 
 		int Get_weaponType();//returns #defined (see config.h) vaule of weapon. used to track count etc
-		SDL_Rect Get_hitbox();//returns weapon hitbox
+		SDL_Rect* Get_hitbox();//returns weapon hitbox
 		int Get_destructProperties();
 		float Get_xSpeed();
 		float Get_ySpeed();

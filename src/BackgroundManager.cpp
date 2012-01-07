@@ -45,7 +45,7 @@ void C_BackgroundManager::LoadImageData()
 void C_BackgroundManager::Create(int type, int layer, SDL_Rect worldOffset)
 {
 	//get real position by adding camera value back.... worldoffset is mouse+camera and only mouse x/y is needed
-	SDL_Rect truePosition ={ worldOffset.x + Camera.Get_XYWH().x, worldOffset.y + Camera.Get_XYWH().y};
+	SDL_Rect truePosition ={ worldOffset.x + Camera.Get_XYWH()->x, worldOffset.y + Camera.Get_XYWH()->y};
 	
 	C_BG_Objects tempObj;
 	tempObj.Set_type(type);							   //type of object
@@ -75,7 +75,7 @@ void C_BackgroundManager::RenderLayer1()
 	for(int i = 0; i < v_bgObjectsActive.size(); i++){
 		if(v_bgObjectsActive[i].Get_layer() == 1){//don't do anything if object is not on layer 1
 			//correct for camera
-			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH().x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH().y};
+			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH()->x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH()->y};
 			SDL_BlitSurface(BackgroundImg.getImage(0), &v_bgObjectsActive[i].Get_XYWH(), screen, &truePosition);
 		
 			//IF the object is currently selected w/map editor
@@ -113,7 +113,7 @@ void C_BackgroundManager::RenderLayer2()
 	for(int i = 0; i < v_bgObjectsActive.size(); i++){
 		if(v_bgObjectsActive[i].Get_layer() == 2){//don't do anything if object is not on layer 3
 			//correct for camera
-			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH().x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH().y};
+			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH()->x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH()->y};
 			SDL_BlitSurface(BackgroundImg.getImage(0), &v_bgObjectsActive[i].Get_XYWH(), screen, &truePosition);
 		
 			//IF the object is currently selected w/map editor
@@ -151,7 +151,7 @@ void C_BackgroundManager::RenderLayer3()
 	for(int i = 0; i < v_bgObjectsActive.size(); i++){
 		if(v_bgObjectsActive[i].Get_layer() == 3){//don't do anything if object is not on layer 3
 			//correct for camera
-			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH().x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH().y};
+			SDL_Rect truePosition ={ v_bgObjectsActive[i].Get_Position().x - Camera.Get_XYWH()->x, v_bgObjectsActive[i].Get_Position().y - Camera.Get_XYWH()->y};
 			SDL_BlitSurface(BackgroundImg.getImage(0), &v_bgObjectsActive[i].Get_XYWH(), screen, &truePosition);
 		
 			//IF the object is currently selected w/map editor

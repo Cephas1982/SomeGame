@@ -10,7 +10,7 @@ class C_Collision
     public:
            C_Collision();
            ~C_Collision();
-           bool Check(SDL_Rect , SDL_Rect );//Returns true if there's no collisions. Currently gets x,y from character(A)  
+           bool Check(SDL_Rect* , SDL_Rect* );//Returns true if there's no collisions. Currently gets x,y from character(A)  
          
 };
 #endif

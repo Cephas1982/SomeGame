@@ -77,12 +77,12 @@ void C_Sword::Render()
 {
 	float swordSize = frameCounter;
 	float swordLength = 3;
-	int minX = mW_X - Camera.Get_XYWH().x;
-	int minY = mW_Y - Camera.Get_XYWH().y;
-	int maxX = mW_X - Camera.Get_XYWH().x;
-	int maxY = mW_Y - Camera.Get_XYWH().y;
+	int minX = mW_X - Camera.Get_XYWH()->x;
+	int minY = mW_Y - Camera.Get_XYWH()->y;
+	int maxX = mW_X - Camera.Get_XYWH()->x;
+	int maxY = mW_Y - Camera.Get_XYWH()->y;
 	for(int i = 0; i < swordSize; i ++){
-		SDL_Rect offset = {(mW_X + mW_xSpeed * i * swordLength)- Camera.Get_XYWH().x, (mW_Y + mW_ySpeed * i * swordLength)- Camera.Get_XYWH().y, SWORD_WIDTH, SWORD_HEIGHT};
+		SDL_Rect offset = {(mW_X + mW_xSpeed * i * swordLength)- Camera.Get_XYWH()->x, (mW_Y + mW_ySpeed * i * swordLength)- Camera.Get_XYWH()->y, SWORD_WIDTH, SWORD_HEIGHT};
 		Uint32 color = SDL_MapRGB(screen->format,  111, 0, 255);
 		SDL_FillRect(screen, &offset, color);
 
@@ -107,8 +107,8 @@ void C_Sword::Render()
 		frameCounter -= 1;
 
 
-	mW_hitbox.x = minX + Camera.Get_XYWH().x;// correct for camera 
-	mW_hitbox.y = minY + Camera.Get_XYWH().y;
+	mW_hitbox.x = minX + Camera.Get_XYWH()->x;// correct for camera 
+	mW_hitbox.y = minY + Camera.Get_XYWH()->y;
 	mW_hitbox.w = maxX - minX;
 	mW_hitbox.h = maxY - minY;//fine tuning hit box
 

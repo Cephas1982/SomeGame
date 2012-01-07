@@ -138,7 +138,7 @@ void C_Boomerang::Move()//TODO Break down into Update position for better collis
 
 void C_Boomerang::Render()
 {
-	SDL_Rect offset = {mW_X - Camera.Get_XYWH().x, mW_Y - Camera.Get_XYWH().y , 2, 2};
+	SDL_Rect offset = {mW_X - Camera.Get_XYWH()->x, mW_Y - Camera.Get_XYWH()->y , 2, 2};
 	Uint32 color = SDL_MapRGB(screen->format,  255, 255, 0);
 	//SDL_FillRect(screen, &offset, color);
 	int ogx = offset.x;
@@ -178,8 +178,8 @@ void C_Boomerang::Render()
 
 
 	}
-	mW_hitbox.x = minX + Camera.Get_XYWH().x;
-	mW_hitbox.y = minY + Camera.Get_XYWH().y;
+	mW_hitbox.x = minX + Camera.Get_XYWH()->x;
+	mW_hitbox.y = minY + Camera.Get_XYWH()->y;
 	mW_hitbox.w = maxX - minX;
 	mW_hitbox.h = maxY - minY +5;//fine tuning hit box
 	spin+= 15;

@@ -209,10 +209,10 @@ void C_Shield::Render()
 
 
 	//hitbox variables
-	int minX = shieldOriginX - Camera.Get_XYWH().x;
-	int minY = shieldOriginY - Camera.Get_XYWH().y;
-	int maxX = shieldOriginX - Camera.Get_XYWH().x;
-	int maxY = shieldOriginY - Camera.Get_XYWH().y;
+	int minX = shieldOriginX - Camera.Get_XYWH()->x;
+	int minY = shieldOriginY - Camera.Get_XYWH()->y;
+	int maxX = shieldOriginX - Camera.Get_XYWH()->x;
+	int maxY = shieldOriginY - Camera.Get_XYWH()->y;
 
 	//TESTING-----
 	if(bob && ( Controls.up || Controls.down)){
@@ -248,7 +248,7 @@ void C_Shield::Render()
 
 	//render
 	for(int i = -2; i < 2; i++){
-		SDL_Rect offset = {(shieldOriginX + mW_xvel * i * 4) - Camera.Get_XYWH().x, (shieldOriginY + mW_yvel * i * 4) - Camera.Get_XYWH().y, SHIELD_SIZE, SHIELD_SIZE};
+		SDL_Rect offset = {(shieldOriginX + mW_xvel * i * 4) - Camera.Get_XYWH()->x, (shieldOriginY + mW_yvel * i * 4) - Camera.Get_XYWH()->y, SHIELD_SIZE, SHIELD_SIZE};
 		Uint32 color = SDL_MapRGB(screen->format,  111, 212, 255);
 		SDL_FillRect(screen, &offset, color);
 
@@ -265,12 +265,12 @@ void C_Shield::Render()
 	}
 
 
-	mW_hitbox.x = minX + Camera.Get_XYWH().x ;// correct for camera 
-	mW_hitbox.y = minY + Camera.Get_XYWH().y;
+	mW_hitbox.x = minX + Camera.Get_XYWH()->x ;// correct for camera 
+	mW_hitbox.y = minY + Camera.Get_XYWH()->y;
 	mW_hitbox.w = maxX - minX + 10;
 	mW_hitbox.h = maxY - minY + 10;
 	
-	SDL_Rect debugHitbox = { mW_hitbox.x - Camera.Get_XYWH().x, mW_hitbox.y - Camera.Get_XYWH().y, mW_hitbox.w, mW_hitbox.h};
+	SDL_Rect debugHitbox = { mW_hitbox.x - Camera.Get_XYWH()->x, mW_hitbox.y - Camera.Get_XYWH()->y, mW_hitbox.w, mW_hitbox.h};
 	Uint32 color = SDL_MapRGB(screen->format,  111, 222, 255);
 	//SDL_FillRect(screen, &debugHitbox, color);
 }

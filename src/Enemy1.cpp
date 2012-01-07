@@ -58,7 +58,7 @@ C_Enemy1::~C_Enemy1()
 
 void C_Enemy1::Render()
 {
-	SDL_Rect offset = {Get_X() - Camera.Get_XYWH().x, Get_Y() - Camera.Get_XYWH().y, PLAYER_WIDTH, PLAYER_HEIGHT};
+	SDL_Rect offset = {Get_X() - Camera.Get_XYWH()->x, Get_Y() - Camera.Get_XYWH()->y, PLAYER_WIDTH, PLAYER_HEIGHT};
 	Uint32 color = SDL_MapRGB(screen->format,  255, 205, 0);
 	SDL_FillRect(screen, &offset, color);
 }

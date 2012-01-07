@@ -86,8 +86,8 @@ class C_BaseEntity{//pure virtual class for all things that move
 		float Get_xSpeed();
 		float Get_ySpeed();
 		float Get_gravityOffset();
-		SDL_Rect Get_hitbox();//returns x/y height and width of player
-		SDL_Rect Weapon_Get_hitbox(int);
+		SDL_Rect* Get_hitbox();//returns x/y height and width of player
+		SDL_Rect* Weapon_Get_hitbox(int);
 		int Weapon_Get_count();//returns how many weapons in vector
 		int Weapon_Get_destructProperties(int);// idestructible, weak vs ice, etc
 		bool Weapon_Get_finished(int);//returns if weaopn is done or not

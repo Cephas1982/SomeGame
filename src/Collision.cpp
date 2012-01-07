@@ -7,7 +7,7 @@ C_Collision::C_Collision()
 C_Collision::~C_Collision()
 {}
 
-bool C_Collision::Check(SDL_Rect A, SDL_Rect B ) 
+bool C_Collision::Check(SDL_Rect* A, SDL_Rect* B ) 
 {   
     //The sides of the rectangles 
     int leftA, leftB; 
@@ -15,15 +15,15 @@ bool C_Collision::Check(SDL_Rect A, SDL_Rect B )
     int topA, topB; 
     int bottomA, bottomB; 
     //Calculate the sides of rect A
-    leftA = A.x; 
-    rightA = A.x + A.w; 
-    topA = A.y; 
-    bottomA = A.y + A.h; 
+    leftA = A->x; 
+    rightA = A->x + A->w; 
+    topA = A->y; 
+    bottomA = A->y + A->h; 
     //Calculate the sides of rect B 
-    leftB = B.x; 
-    rightB = B.x + B.w; 
-    topB = B.y; 
-    bottomB = B.y + B.h; 
+    leftB = B->x; 
+    rightB = B->x + B->w; 
+    topB = B->y; 
+    bottomB = B->y + B->h; 
     //If any of the sides from A are outside of B 
     if( bottomA <= topB ) 
     { 
