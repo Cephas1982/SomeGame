@@ -149,7 +149,7 @@ int Main_loadImages()
 	return 1;//todo: return value based on error
 }
 
-void Main_keyCommands(std::vector<C_BaseEntity*> &v_Entities, C_GUI &GUI)//this is for who knows what. Debug and laziness
+void Main_keyCommands(std::vector<C_BaseEntity*> &v_Entities, C_GUI &GUI, C_MapEditor &MapEditor)//this is for who knows what. Debug and laziness
 {
 	//KEYS COMMANDS**********************************
 
@@ -223,6 +223,30 @@ void Main_keyCommands(std::vector<C_BaseEntity*> &v_Entities, C_GUI &GUI)//this 
 	}//END SCREEN CAP
 	//TODO: FIX SCREEN CAPTURE
 
+
+	//EXTRAS *** Map Editor and debug
+	if(Controls.tab == true)
+		MapEditorActive = !MapEditorActive;//Toggle map editor
+
+	if(MapEditorActive){
+		MapEditor.Start();
+		v_Entities[0]->Debug();
+
+		//HOT KEYS
+		if(Controls.key_F1){//Save map data
+			TileManager.SaveMap();
+			BackgroundManager.Save();
+		}
+		if(Controls.key_F4){
+			v_Entities[0]->Set_X(256);
+			v_Entities[0]->Set_Y(721);
+			TileManager.StartNewGame();
+			TileManager.LoadMainBuffer();
+			BackgroundManager.Load();
+		}
+	}
+	else
+		MapEditor.Stop();
 }
 
 int main( int argc, char* args[] )
@@ -338,7 +362,7 @@ int main( int argc, char* args[] )
 		BackgroundManager.RenderLayer3();								//LAYER 3 super foreground stuff (rain, etc)
 
 		for(int i = 0; i < v_Particles.size(); i++)
-			v_Particles[i]->Render();										//Render particles TODO: make other functions to change layer
+			v_Particles[i]->Render();									//Render particles TODO: make other functions to change layer
 
 		GUI.Render_HitPoints();											//RENDER
 
@@ -351,37 +375,17 @@ int main( int argc, char* args[] )
 		if(!mapMode && !MapEditorActive)								//GUI when not viewing map or editing GUI
 			GUI.Render_PlayerStatus(&v_Entities);
 
+		GUI.Render_Lobby(ON, Server.GetNetworkDetails());				//*************current focus. todo: finish lobby for netplay
+
 		TileManager.Transitions_Render();								//Handle transitions ***KEEP AT TOP**
 
 
 		//SOUNDS//////////////////
-		//Insert something here to handle audio on the fly
+		//Insert something here to handle audio
 
-		//EXTRAS *** Map Editor and debug
-		if(Controls.tab == true)
-			MapEditorActive = !MapEditorActive;//Toggle map editor
 
-		if(MapEditorActive){
-			MapEditor.Start();
-			v_Entities[0]->Debug();
-
-			//HOT KEYS
-			if(Controls.key_F1){//Save map data
-				TileManager.SaveMap();
-				BackgroundManager.Save();
-			}
-			if(Controls.key_F4){
-				v_Entities[0]->Set_X(256);
-				v_Entities[0]->Set_Y(721);
-				TileManager.StartNewGame();
-				TileManager.LoadMainBuffer();
-				BackgroundManager.Load();
-			}
-		}
-		else
-			MapEditor.Stop();
-		
-		Main_keyCommands(v_Entities, GUI);//Handles key presses, mostly for debug right now
+		//Handles key presses, mostly for debug right now
+		Main_keyCommands(v_Entities, GUI, MapEditor);
 		
 		//NETWORKING*******************************************************************
 		//---Connect
@@ -441,7 +445,7 @@ int main( int argc, char* args[] )
 
 
 
-	//Regulate FPS
+		//Regulate FPS
 		if(g_fpsRegulator.get_ticks() < 1000 / FPS)
 			SDL_Delay( (1000 / FPS) - g_fpsRegulator.get_ticks() );
 
@@ -460,11 +464,6 @@ int main( int argc, char* args[] )
 			totalFrames = 0;
 
 		}
-
-
-		
-		
-		
 
 	}//end game loop
 	

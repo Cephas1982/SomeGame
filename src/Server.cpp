@@ -5,9 +5,19 @@
 C_Server::C_Server()
 {
 	m_serverActive = true;
+	m_totalConnections = 1;
+	
+	//setup the network info struct
+	s_netInfo.maxConnections = 4;
+	s_netInfo.playerCount = m_totalConnections;
+	for(int i = 0; i < s_netInfo.maxConnections; i++)
+		s_netInfo.playerName[i] = "";
+
 	if(m_serverActive){
 		InitServer();
 	}//endif	
+
+	
 }
 C_Server::~C_Server()
 {
@@ -41,8 +51,10 @@ void C_Server::UpdateClient()
 		//most of the time this is a system error, where perror might help you.
 		perror("SDLNet_CheckSockets");
 	}
-	else if(m_connected)
+	else if(m_connected){
+		s_outPacket.m_playerCount = m_totalConnections;
 		m_result = SDLNet_TCP_Send(m_clientSocket, &s_outPacket, sizeof(s_outPacket));	
+	}
 		std::cout << "bytes sent: " << (m_bytesSent += m_result) << std::endl;
 }
 
@@ -103,6 +115,14 @@ void C_Server::InitServer()
 		if(!m_socketSet)
 			printf("SDLNet_AllocSocketSet: %s\n\n", SDLNet_GetError());
 
+
+		//**update netInfo struct
+		s_netInfo.playerName[0] = m_hostIP;
+		int i = 0;
 }
 
+s_networkInfo C_Server::GetNetworkDetails()
+{
+	return s_netInfo;
+}
 #endif

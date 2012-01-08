@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 #include <SDL.h>
+#include <iostream>
 
 #define SCREEN_WIDTH	640
 #define SCREEN_HEIGHT	480
@@ -84,7 +85,13 @@ struct s_gamePacket{
 	SDL_Rect m_cameraPosition;
 	float m_velocityX;
 	float m_velocityY;
-	
+	int m_playerCount;	
+};
+
+struct s_networkInfo{
+	int playerCount;
+	int maxConnections;
+	std::string playerName[4];//assume 4 max
 };
 
 

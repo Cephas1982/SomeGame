@@ -35,6 +35,7 @@ class C_GUI{
 			void Render_Map();
 			void Render_PlayerStatus(std::vector<C_BaseEntity*>*);
 			void Render_HitPoints();
+			void Render_Lobby(bool ON_or_OFF, s_networkInfo networkInfo_struct);//for netplay
 
 			
 			//GET

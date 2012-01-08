@@ -10,7 +10,9 @@ class C_Server{
 
 	public:		
 			bool m_connected;
+			int m_totalConnections;
 			s_gamePacket s_playerDataPacket, s_inPacket, s_outPacket;
+			s_networkInfo s_netInfo;
 
 	protected:
 			bool m_serverActive;
@@ -31,5 +33,7 @@ class C_Server{
 			void Receive();// Gets packets from clients
 			void isActive(bool on_or_off);
 			void InitServer();
+
+			s_networkInfo GetNetworkDetails();//returns struct with network info  
 };
 #endif

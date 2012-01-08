@@ -37,10 +37,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Lee\Documents\Visual Studio 2010\Projects\SomeGame\include;$(LIBRARIES)\SDL_ttf-2.0.10\include;$(LIBRARIES)\SDL_gfx-2.0.23\include;$(LIBRARIES)\SDL_image-1.2.10\include;$(LIBRARIES)\SDL_mixer-1.2.11\include;$(LIBRARIES)\SDL_net-1.2.7\include;$(LIBRARIES)\SDL-1.2.14\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Lee\Documents\Visual Studio 2010\Projects\SomeGame\include;C:\C++ libraries\SDL_ttf-2.0.10\include;C:\C++ libraries\SDL_gfx-2.0.23\include;C:\C++ libraries\SDL_image-1.2.10\include;C:\C++ libraries\SDL_mixer-1.2.11\include;C:\C++ libraries\SDL_net-1.2.7\include;C:\SDL-1.2.14\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(LIBRARIES)\SDL_gfx-2.0.23\lib;$(LIBRARIES)\SDL_ttf-2.0.10\lib;$(LIBRARIES)\SDL_image-1.2.10\lib;$(LIBRARIES)\SDL_mixer-1.2.11\lib;$(LIBRARIES)\SDL_net-1.2.7\lib;$(LIBRARIES)\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\C++ libraries\SDL_gfx-2.0.23\lib;C:\C++ libraries\SDL_ttf-2.0.10\lib;C:\C++ libraries\SDL_image-1.2.10\lib;C:\C++ libraries\SDL_mixer-1.2.11\lib;C:\C++ libraries\SDL_net-1.2.7\lib;C:\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\Users\Lee\Documents\Visual Studio 2010\Projects\SomeGame\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
