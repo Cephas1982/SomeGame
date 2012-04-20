@@ -22,6 +22,14 @@ class C_TileManager
 			std::vector<C_WarpZone> v_WarpZones;
 
 			bool m_mapTransition;
+
+			/***new render test***/
+			bool tileRendered_complete, bufferBG_done;
+			SDL_Surface* p_bufferBG_alternate;
+			SDL_Surface* p_bufferBG;
+
+			SDL_Surface* p_primaryBuffer;
+			SDL_Surface* p_secondaryBuffer;
 			
 			
 			int m_transitionCounter;
