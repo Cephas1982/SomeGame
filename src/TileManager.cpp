@@ -23,13 +23,15 @@ C_TileManager::C_TileManager()
 	p_mainTileBuffer = &v2d_tileList;
 	p_secondTileBuffer = &v2d_tileListBuffer;
 
-	p_mainOffset = &m_mainOffset;
-	p_secondOffset = &m_bufferOffset;
+	//p_mainOffset = &m_mainOffset; TODO: remove
+	//p_secondOffset = &m_bufferOffset;
 
 
 	//Will use buffers below and phase out p_main/secondTile buffers
-	p_primaryBuffer = p_bufferBG;
-	p_secondaryBuffer = p_bufferBG_alternate;
+	//p_primaryBuffer = p_secondBackgroundBuffer;
+	//p_secondaryBuffer = p_mainBackgroundBuffer;
+
+	
 
 	m_mapPosition.x = 4;
 	m_mapPosition.y = 4;
@@ -46,10 +48,15 @@ C_TileManager::C_TileManager()
 
 	m_warpUsed = -1;
 
-	p_bufferBG_alternate = SDL_CreateRGBSurface( SDL_SWSURFACE, LEVEL_WIDTH, LEVEL_HEIGHT, SCREEN_BPP, 0, 0, 0, 0 );
-	p_bufferBG = SDL_CreateRGBSurface( SDL_SWSURFACE, LEVEL_WIDTH, LEVEL_HEIGHT, SCREEN_BPP, 0, 0, 0, 0 );
+	//setup background buffers
+	p_mainBackgroundBuffer = SDL_CreateRGBSurface( SDL_SWSURFACE, LEVEL_WIDTH, LEVEL_HEIGHT, SCREEN_BPP, 0, 0, 0, 0 );
+	p_secondBackgroundBuffer = SDL_CreateRGBSurface( SDL_SWSURFACE, LEVEL_WIDTH, LEVEL_HEIGHT, SCREEN_BPP, 0, 0, 0, 0 );
+	Uint32 color = SDL_MapRGB(p_mainBackgroundBuffer->format,  0, 150, 0);
+	SDL_FillRect(p_mainBackgroundBuffer, NULL, color);
+	SDL_FillRect(p_secondBackgroundBuffer, NULL, color);
+
 	tileRendered_complete = false;
-	bufferBG_done = false;
+	is_newBackroundBufferDone = false;
 }
 C_TileManager::~C_TileManager()
 {
@@ -500,61 +507,24 @@ void C_TileManager::LoadCave()
 	BackgroundManager.Load();
 
 	inFile.close();//close file
-	SwapBuffers();//swap to new buffer
-	SwapOffsets();
+	TransitionCleanup();//swap to new buffer
+	//SwapOffsets();
 
 }
 
 void C_TileManager::Render()
 {
-	//TEMP
-	int DrawBufferX = 1;
-	int DrawBufferY = 1;
+	//Create initial tile background buffer - TODO: add code to NOT display invisible (type = -1 ) tiles
 	SDL_Rect tileClip={0,0, TILE_SIZE, TILE_SIZE};
-
-	
-	p_mainOffset->x = 0;
-	p_mainOffset->y = 0;
-
-	//END TEMP
-	/*
-	for(int y = Camera.Get_XYWH()->y/TILE_SIZE; y < (Camera.Get_XYWH()->y + SCREEN_HEIGHT)/TILE_SIZE + DrawBufferY; y++)
-		for(int x = Camera.Get_XYWH()->x/TILE_SIZE; x < (Camera.Get_XYWH()->x + SCREEN_WIDTH)/TILE_SIZE + DrawBufferX; x++){
-				if( x == m_mapWidth/16 ){//Keeps from over drawing IE: vector bound check
-					x = 79;//tiles in an overworld range from 0 to 79.  Overflow check
-					DrawBufferX = 0;
-				}
-				if( y == m_mapHeight/16 ){//bounds check **if drawing 2nd half of screen dont add buffer
-					y = 59;//tiles in an overworld range from 0 to 79.  Overflow check
-					DrawBufferY = 0;
-				}
-				if(Collision.Check(Camera.Get_XYWH(), (*p_mainTileBuffer)[x][y].Get_tileSDL_Rect()) && *(*p_mainTileBuffer)[x][y].Get_tileType() != -1 )//if tile is in camera view but NOT type '-1' draw it
-					p_mainOffset->x = *(*p_mainTileBuffer)[x][y].Get_tileX() - Camera.Get_XYWH()->x + offsetCounterX;
-					p_mainOffset->y = *(*p_mainTileBuffer)[x][y].Get_tileY() - Camera.Get_XYWH()->y + offsetCounterY;
-				
-					//ADD DEBUG TO SEE INVISIBLE TILES
-					tileClip.x = 16 *  (*(*p_mainTileBuffer)[x][y].Get_tileType()) - (*((*p_mainTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
-					tileClip.y = 16 *  ((*(*p_mainTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
-				
-					//AND finally draw the tiles
-					if(m_mapTransition == true)
-						MapTransition(-99);
-					
-					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, screen, p_mainOffset);
-
-
-					*/
-
 	SDL_Rect tileOffset ={0,0,0,0};
-	/** TODO: Testing new render tech here***/
 	if(tileRendered_complete == false){
 		for(int y = 0; y < LEVEL_HEIGHT/TILE_SIZE; y++)
-			for(int x = 0; x < LEVEL_WIDTH/TILE_SIZE; x++){
-			//	if(*(*p_mainTileBuffer)[x][y].Get_tileType() != -1 ){//if tile NOT type '-1' draw it			
+			for(int x = 0; x < LEVEL_WIDTH/TILE_SIZE; x++)
+				if(*(*p_mainTileBuffer)[x][y].Get_tileType() != -1 ){//if tile NOT type '-1' draw it			
 					tileOffset.x = *(*p_mainTileBuffer)[x][y].Get_tileX();//this is the x position to start drawing the tile to a buffer
 					tileOffset.y = *(*p_mainTileBuffer)[x][y].Get_tileY();//this is the y position to start drawing the tile to a buffer
 				
-					//ADD DEBUG TO SEE INVISIBLE TILES - these next 2 lines tell which tile to get from the sprite sheet based on type TYPE
+					//these next 2 lines tell which tile to get from the sprite sheet based on type TYPE
 					tileClip.x = 16 *  (*(*p_mainTileBuffer)[x][y].Get_tileType()) - (*((*p_mainTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
 					tileClip.y = 16 *  ((*(*p_mainTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
 				
@@ -562,118 +532,71 @@ void C_TileManager::Render()
 					if(m_mapTransition == true)
 						MapTransition(-99);
 					
-					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, p_bufferBG_alternate, &tileOffset);//blit to the giant level sprite				
+					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, p_mainBackgroundBuffer, &tileOffset);//blit to the giant level sprite				
 				}
+		tileRendered_complete = true;//set true when 'level' is finished loading
 	}//end if
+
+	//DISPLAY the background - centered around player/camera
 	SDL_Rect BGpos={0 + offsetCounterX, 0 + offsetCounterY};//background should start being draw at top left AND will scroll only when changing screens
 	SDL_Rect clip_={Camera.Get_XYWH()->x,Camera.Get_XYWH()->y, SCREEN_WIDTH,SCREEN_HEIGHT};
-	SDL_BlitSurface(p_bufferBG_alternate, &clip_, screen, &BGpos);//blit the giant level sprite to the screen
-	tileRendered_complete = true;//set true when 'level' is finished loading
+	SDL_BlitSurface(p_mainBackgroundBuffer, &clip_, screen, &BGpos);//blit the giant level sprite to the screen
 
-	
-	
-	//buffer starts here when transitioning UP---------------------------------------
-	p_secondOffset->x = 0;
-	p_secondOffset->y = 0;
-	/********* TRANSITION STUFF *****************/
-	int transitionX, transitionY, transitionMaxY, transitionMaxX;
+
+
+	/********* TRANSITION STUFF - when a transition starts the offsets are set based on direction *****************/
 	int transitionOffsetX = 0;
 	int transitionOffsetY = 0;
 	if(transitionDirection == UP){
-		transitionX = Camera.Get_XYWH()->x/TILE_SIZE;
-		transitionY = 30;//40 tiles down
-		transitionMaxX = transitionX + 40;
-		transitionMaxY = transitionY + 30;
 		transitionOffsetX = -Camera.Get_XYWH()->x;
 		transitionOffsetY = -960;
 	}
 	if(transitionDirection == DOWN){
-		transitionX = Camera.Get_XYWH()->x/TILE_SIZE;
-		transitionY = 0;//40 tiles down
-		transitionMaxX = transitionX + 40;
-		transitionMaxY = transitionY + 30;
 		transitionOffsetX = -Camera.Get_XYWH()->x;
 		transitionOffsetY = 480;
 	}
 	if(transitionDirection == LEFT){
-		transitionX = 40;//start at middle of map
-		transitionY =  Camera.Get_XYWH()->y/TILE_SIZE;//start where camera is
-		transitionMaxX = transitionX+40;
-		transitionMaxY = transitionY + 30;
 		transitionOffsetX = -1280;//move map left 2 screens before showing it
 		transitionOffsetY = -Camera.Get_XYWH()->y;
 	}
 	if(transitionDirection == RIGHT){
-		transitionX = 0;//start at middle of map
-		transitionY =  Camera.Get_XYWH()->y/TILE_SIZE;//start where camera is
-		transitionMaxX = transitionX+40;
-		transitionMaxY = transitionY + 30;
 		transitionOffsetX = 640;//move map right 1 screen before showing it
 		transitionOffsetY = -Camera.Get_XYWH()->y;
 	}
+	/**********************************************************************************************************/
 
-	//WHEN TRANSITION STARTS RENDER HERE
-	/*
-		if(m_mapTransition == true)
-			for(int y = transitionY; y < transitionMaxY + DrawBufferY; y++)
-				for(int x = transitionX; x < transitionMaxX + DrawBufferX; x++)	{
-						if( x == LEVEL_WIDTH/16 -1 )//Keeps from over drawing IE: vector bound check
-							DrawBufferX = 0;
-						if( y == LEVEL_HEIGHT/16 -1 )//bounds check
-							DrawBufferY = 0;			
-					
-						//Update Offsets	
-						p_secondOffset->x = *(*p_secondTileBuffer)[x][y].Get_tileX() + offsetCounterX + transitionOffsetX;// 
-						p_secondOffset->y = *(*p_secondTileBuffer)[x][y].Get_tileY() + offsetCounterY + transitionOffsetY;
-				
-						//ADD DEBUG TO SEE INVISIBLE TILES
-						tileClip.x = 16 * (*(*p_secondTileBuffer)[x][y].Get_tileType()) - ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
-						tileClip.y = 16 * ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
-	
-						//AND finally draw the tiles
-						if(m_mapTransition == true)
-							MapTransition(-99);
-						SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, screen, p_secondOffset);
-			
-				}
-	*/
-	
-	//WHEN TRANSITION STARTS RENDER HERE
-		if(m_mapTransition == true && bufferBG_done == false){
+
+
+	//CREATE a seperate tile background buffer when a new zone is being entered --once the transition is over this buffer is swapped to the main
+	SDL_Rect bufferTileOffset = {0,0};
+	if(m_mapTransition == true && is_newBackroundBufferDone == false){
 			for(int y = 0; y < LEVEL_HEIGHT/TILE_SIZE; y++)
 				for(int x = 0; x < LEVEL_WIDTH/TILE_SIZE; x++){					
 					//Update Offsets	
-					p_secondOffset->x = *(*p_secondTileBuffer)[x][y].Get_tileX(); 
-					p_secondOffset->y = *(*p_secondTileBuffer)[x][y].Get_tileY();
+					bufferTileOffset.x = *(*p_secondTileBuffer)[x][y].Get_tileX(); 
+					bufferTileOffset.y = *(*p_secondTileBuffer)[x][y].Get_tileY();
 				
 					//ADD DEBUG TO SEE INVISIBLE TILES
 					tileClip.x = 16 * (*(*p_secondTileBuffer)[x][y].Get_tileType()) - ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12 * 16 * 12);
 					tileClip.y = 16 * ((*(*p_secondTileBuffer)[x][y].Get_tileType())/12); //12 tiles per row in the sprite sheet.
-	
-					//AND finally draw the tiles
-//					if(m_mapTransition == true)
-//						MapTransition(-99);
 
-					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, p_bufferBG, p_secondOffset);
+					SDL_BlitSurface(LevelAssets.getImage(0), &tileClip, p_secondBackgroundBuffer, &bufferTileOffset);
 				}
-				bufferBG_done = true;//SET flag to true so it doesn't keep drawing
-				SDL_SaveBMP(p_bufferBG, "Screenshots\\adsfa3333.bmp");
-		}
+				is_newBackroundBufferDone = true;//SET flag to true so it doesn't keep drawing
+	}
 
-		//TESTING todo: does this work?
-		if(m_mapTransition == true){
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			//SDL_Rect bufferBGpos={0 + offsetCounterX + transitionOffsetX, 0 };//background should start being draw at top left AND will scroll only when changing screens
-			//SDL_Rect bufferClip_={Camera.Get_XYWH()->x,Camera.Get_XYWH()->y, SCREEN_WIDTH,SCREEN_HEIGHT};
-			SDL_Rect bufferBGpos={offsetCounterX + transitionOffsetX, 0 };//background should start being draw at top left AND will scroll only when changing screens
-			SDL_Rect bufferClip_={0, 0, SCREEN_WIDTH,SCREEN_HEIGHT};
-			SDL_BlitSurface(p_bufferBG, &bufferClip_, screen, &bufferBGpos);//blit the giant level sprite to the screen
+	//While map transitions are happening this take care of drawing the incoming zone
+	if(m_mapTransition == true){
+		SDL_Rect bufferBGpos={transitionOffsetX + offsetCounterX, transitionOffsetY + offsetCounterY};//background should start being draw at top left AND will scroll only when changing screens
+		SDL_Rect bufferClip_={0, 0, LEVEL_WIDTH,LEVEL_HEIGHT};
+		SDL_BlitSurface(p_secondBackgroundBuffer, &bufferClip_, screen, &bufferBGpos);//blit the giant level sprite to the screen
 		
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			MapTransition(-99);
-		}
+		MapTransition(-99);
+	}
+
+
+
+
 }
 void C_TileManager::RenderStaticBackground()
 {
@@ -755,72 +678,29 @@ void C_TileManager::MapTransition(int direction)
 					offsetCounterY += 5;//.0025;//increase offset
 					Camera.Set_cameraLock(false);
 				}
-				else{
-					m_mapTransition = false;
-					offsetCounterY = 0;
-					SwapBuffers();
-					SwapOffsets();
-					//TODO: MORE TESTING
-					p_bufferBG_alternate = p_bufferBG;
-					
-					Camera.Set_cameraLock(true);
-					transitionDirection = -1;					
-				}
-				break;
-
+				else
+					TransitionCleanup(); break;
+							
 		case DOWN:if(offsetCounterY > -480){
 					offsetCounterY -= 5;//increase offset
   					Camera.Set_cameraLock(false);
 					}
-				else{
-					m_mapTransition = false;
-					offsetCounterY = 0;
-					SwapBuffers();
-					SwapOffsets();
-					//TODO: MORE TESTING
-					p_bufferBG_alternate = p_bufferBG;
-					
-					Camera.Set_cameraLock(true);
-					transitionDirection = -1;
-				}
-				break;
-
+				else
+					TransitionCleanup(); break;
+				
 		case LEFT:if(offsetCounterX < 640){
-					offsetCounterX += 5; //.0025;//increase offset
+					offsetCounterX += 5; //increase offset
 					Camera.Set_cameraLock(false);
 					}
-				else{
-					m_mapTransition = false;
-					offsetCounterX = 0;
-					SwapBuffers();
-					SwapOffsets();
-					//TODO: MORE TESTING
-					p_bufferBG_alternate = p_bufferBG;
-					
-					Camera.Set_cameraLock(true);
-					transitionDirection = -1;
-				}
-				break;
-
+				else
+					TransitionCleanup(); break;
+				
 		case RIGHT:if(offsetCounterX > -640){
 					offsetCounterX -= 5;//increase offset (scroll effect)
 					Camera.Set_cameraLock(false);
 					}
-				else{
-					m_mapTransition = false;
-					offsetCounterX = 0;
-					SwapBuffers();
-					SwapOffsets();
-
-					SDL_SaveBMP(p_bufferBG, "Screenshots\\tdbug.bmp");
-					//TODO: MORE TESTING
-					p_bufferBG_alternate = p_bufferBG;
-
-
-					Camera.Set_cameraLock(true);
-					transitionDirection = -1;
-				}
-				break;
+				else		
+					TransitionCleanup(); break;
 
 	}//end switch
 
@@ -834,9 +714,25 @@ int C_TileManager::Get_transitionDirection()
 
 	return theDirection;
 }
-void C_TileManager::SwapBuffers()
+void C_TileManager::TransitionCleanup()//TODO: rename to something like CompleteTransition()
 {
-	//Just swaps pointers to the buffers
+	//Reset flags for the next transition
+	m_mapTransition = false;
+	offsetCounterX = 0;
+	transitionDirection = -1;
+	Camera.Set_cameraLock(true);
+	Uint32 color = SDL_MapRGB(p_mainBackgroundBuffer->format,  0, 150, 0);
+	SDL_FillRect(p_mainBackgroundBuffer, NULL, color);//Clear the main buffer before drawing over it
+	is_newBackroundBufferDone = false;//flag this false so when another transition happens it can load the new background
+
+	//swap these pointers/swap old background buffer for the new one once transition is done
+	SDL_Surface *tempSurface = NULL;
+	tempSurface = p_mainBackgroundBuffer;
+	p_mainBackgroundBuffer = p_secondBackgroundBuffer;
+	p_secondBackgroundBuffer = tempSurface;
+
+
+	//Just swaps pointers to the buffers TODO: this if/else necessary?? Possibly b/c of the map editor
 	if(p_mainTileBuffer == &v2d_tileList){//swap to second buffer
 		p_mainTileBuffer = &v2d_tileListBuffer;
 		p_secondTileBuffer = &v2d_tileList;
@@ -847,20 +743,8 @@ void C_TileManager::SwapBuffers()
 		p_secondTileBuffer = &v2d_tileListBuffer;
 	}
 
-} //DONE
-void C_TileManager::SwapOffsets()
-{
-	//Just swaps pointers to the buffers
-	if(p_mainOffset == &m_mainOffset){//swap to second buffer
-		p_mainOffset = &m_bufferOffset;
-		p_secondOffset = &m_mainOffset;
-	}
+} 
 
-	else{
-		p_mainOffset = &m_mainOffset;//swap back to first buffer
-		p_secondOffset = &m_bufferOffset;
-	}
-} //DONE
 
 //TRANSITIONS
 void C_TileManager::Transition_Start(int startThis)

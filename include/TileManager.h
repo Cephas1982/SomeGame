@@ -24,9 +24,9 @@ class C_TileManager
 			bool m_mapTransition;
 
 			/***new render test***/
-			bool tileRendered_complete, bufferBG_done;
-			SDL_Surface* p_bufferBG_alternate;
-			SDL_Surface* p_bufferBG;
+			bool tileRendered_complete, is_newBackroundBufferDone;
+			SDL_Surface* p_mainBackgroundBuffer;
+			SDL_Surface* p_secondBackgroundBuffer;
 
 			SDL_Surface* p_primaryBuffer;
 			SDL_Surface* p_secondaryBuffer;
@@ -82,7 +82,7 @@ class C_TileManager
 
 			//MISC
 			void MapTransition(int);//handles map transitions... TODO: Take parameters for user input
-			void SwapBuffers();
+			void TransitionCleanup();
 			void SwapOffsets();
 
 			//Zoning transitions
